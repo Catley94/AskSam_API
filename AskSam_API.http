@@ -1,0 +1,48 @@
+@AskSam_API_HostAddress = http://localhost:5125
+
+GET {{AskSam_API_HostAddress}}/questions/
+Accept: application/json
+
+###
+
+GET {{AskSam_API_HostAddress}}/questions/
+
+###
+
+GET {{AskSam_API_HostAddress}}/questions/0
+
+###
+POST {{AskSam_API_HostAddress}}/questions
+Content-Type: application/json
+
+{
+    "Answered": true,
+    "Question": "What colour is the sky?",
+    "Answer": "Blue",
+    "Type": "General"
+}
+
+###
+POST {{AskSam_API_HostAddress}}/questions
+Content-Type: application/json
+
+{
+    "Answered": true,
+    "Question": "What colour is Space?",
+    "Answer": "Dark Blue",
+    "Type": "General"
+}
+
+###
+PUT {{AskSam_API_HostAddress}}/questions/2
+Content-Type: application/json
+
+{
+    "Answered": true,
+    "Question": "What colour is Spaces?",
+    "Answer": "Dark Red",
+    "Type": "General"
+}
+
+###
+DELETE {{AskSam_API_HostAddress}}/questions/3
