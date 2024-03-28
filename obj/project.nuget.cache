@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ls6X/VirZYgTl3688WkcL1ReTwg60rwPIrtbl/FoLNKKH7AfRLkDh9KlySZy+oPYrweRz1wm2jZ0BglQX3Rz4g==",
+  "dgSpecHash": "HqzW9u0h9M4kD3mcYU7nCVcsjOyoMwTJnhKzZVTKGGjR12XNAwgkGpTmxE3wHikyR9sZ8j/7GiRaVnj9FQa1Tg==",
   "success": true,
-  "projectFilePath": "c:\\Users\\Sam\\Projects\\AskSam\\AskSam_API\\AskSam_API.csproj",
+  "projectFilePath": "c:\\Users\\Sam\\Documents\\GitHub\\AskSam_API\\AskSam_API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Sam\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\Sam\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",

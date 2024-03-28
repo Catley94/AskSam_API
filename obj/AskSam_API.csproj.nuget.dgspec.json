@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\Sam\\Projects\\AskSam\\AskSam_API\\AskSam_API.csproj": {}
+    "c:\\Users\\Sam\\Documents\\GitHub\\AskSam_API\\AskSam_API.csproj": {}
   },
   "projects": {
-    "c:\\Users\\Sam\\Projects\\AskSam\\AskSam_API\\AskSam_API.csproj": {
+    "c:\\Users\\Sam\\Documents\\GitHub\\AskSam_API\\AskSam_API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\Sam\\Projects\\AskSam\\AskSam_API\\AskSam_API.csproj",
+        "projectUniqueName": "c:\\Users\\Sam\\Documents\\GitHub\\AskSam_API\\AskSam_API.csproj",
         "projectName": "AskSam_API",
-        "projectPath": "c:\\Users\\Sam\\Projects\\AskSam\\AskSam_API\\AskSam_API.csproj",
+        "projectPath": "c:\\Users\\Sam\\Documents\\GitHub\\AskSam_API\\AskSam_API.csproj",
         "packagesPath": "C:\\Users\\Sam\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\Sam\\Projects\\AskSam\\AskSam_API\\obj\\",
+        "outputPath": "c:\\Users\\Sam\\Documents\\GitHub\\AskSam_API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

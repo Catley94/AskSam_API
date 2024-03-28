@@ -29,9 +29,9 @@ public class QuestionsController : ControllerBase
         )
     ];
 
-    private readonly ILogger<WeatherForecastController> _logger;
+    private readonly ILogger<QuestionsController> _logger;
 
-    public QuestionsController(ILogger<WeatherForecastController> logger)
+    public QuestionsController(ILogger<QuestionsController> logger)
     {
         _logger = logger;
     }
