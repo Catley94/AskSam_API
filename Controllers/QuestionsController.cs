@@ -1,5 +1,9 @@
 using EmptyDotNetWebAPI2.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
+using ZstdSharp.Unsafe;
+
 
 namespace AskSam_API.Controllers;
 
@@ -7,6 +11,9 @@ namespace AskSam_API.Controllers;
 [Route("[controller]")]
 public class QuestionsController : ControllerBase
 {
+
+    private readonly Public_DB _options;
+
     private static readonly List<QuestionDto> questions = 
     [
         new (
@@ -31,31 +38,67 @@ public class QuestionsController : ControllerBase
 
     private readonly ILogger<QuestionsController> _logger;
 
-    public QuestionsController(ILogger<QuestionsController> logger)
+    private bool useMongoDB = true;
+
+    public QuestionsController(ILogger<QuestionsController> logger, Public_DB options)
     {
         _logger = logger;
+        _options = options;
     }
 
     [HttpGet(Name = "GetQuestions")]
     public IEnumerable<QuestionDto> Get()
     {
-        return questions.ToArray();
+        if(useMongoDB) 
+        {
+            //Placeholder
+            return questions.ToArray();
+        } 
+        else
+        {
+            return questions.ToArray();
+        }
     }
 
     // GET: /Questions/{id}
     [HttpGet("{id}", Name = "GetQuestionById")]
     public IResult GetQuestionById(int id) 
     {
-        QuestionDto? question = questions.Find(question => question.Id == id);
+        if(useMongoDB) 
+        {
+            //Placeholder
+            QuestionDto? question = questions.Find(question => question.Id == id);
 
             return question is null ? Results.NotFound() : Results.Ok(question);
+        }
+        else 
+        {
+
+            QuestionDto? question = questions.Find(question => question.Id == id);
+
+            return question is null ? Results.NotFound() : Results.Ok(question);
+        }
     }
 
     [HttpPost(Name = "PostQuestions")]
     public IResult Post(CreateQuestionDto newQuestion)
     {
-        QuestionDto _newQuestion = new QuestionDto(
-                questions.Count(),
+        
+        
+        
+
+        if(useMongoDB)
+        {
+
+            //TEMP!! TODO: Do not find by question, find by ID.
+            // var filter = Builders<QuestionDto>.Filter
+            //                                 .Eq(question => question.Question, _newQuestion.Question);
+            // var count = _options.Mongo_DB_Collection.Find(filter).CountDocuments();
+            
+            // Creates a filter for all documents that have a "cuisine" value of "Pizza"
+            long count = _options.Mongo_DB_Collection.EstimatedDocumentCount();
+            QuestionDto _newQuestion = new QuestionDto(
+                count,
                 newQuestion.Answered,
                 newQuestion.Question,
                 newQuestion.Answer,
@@ -64,6 +107,30 @@ public class QuestionsController : ControllerBase
                 null
             );
 
+            //Insert into DB
+            _options.Mongo_DB_Collection.InsertOne(_newQuestion);
+            
+            //Find in DB to check it has ben inserted correctly
+            QuestionDto retrievedQuestion = GetData(_newQuestion);
+            
+
+            Console.WriteLine(retrievedQuestion);
+
+
+            return Results.CreatedAtRoute("GetQuestions", new {id = _newQuestion.Id}, _newQuestion);
+
+        }
+        else 
+        {
+            QuestionDto _newQuestion = new QuestionDto(
+                questions.Count(),
+                newQuestion.Answered,
+                newQuestion.Question,
+                newQuestion.Answer,
+                newQuestion.Type,
+                DateOnly.FromDateTime(DateTime.Now),
+                null
+            );
             questions.Add(_newQuestion);
 
             int foundIndex = questions.FindIndex(question => question == _newQuestion);
@@ -77,12 +144,39 @@ public class QuestionsController : ControllerBase
                 //Check this is the right code
                 return Results.NoContent();
             } 
+        }
     }
 
     [HttpPut("{id}", Name = "UpdateQuestions")]
     public IResult Put(int id, CreateQuestionDto updatedQuestion)
     {
-        var index = questions.FindIndex((question) => question.Id == id);
+
+        if(useMongoDB)
+        {
+            //Placeholder
+            var index1 = questions.FindIndex((question) => question.Id == id);
+
+            if(index1 == -1) 
+            {
+                return Results.NotFound();
+            }
+
+            DateOnly dateCreated1 = questions[index1].DateCreated;
+            questions[index1] = new QuestionDto(
+                index1,
+                updatedQuestion.Answered,
+                updatedQuestion.Question,
+                updatedQuestion.Answer,
+                updatedQuestion.Type,
+                dateCreated1,
+                DateOnly.FromDateTime(DateTime.Now)
+            );
+
+            return Results.NoContent();
+        } 
+        else
+        {
+            var index = questions.FindIndex((question) => question.Id == id);
 
             if(index == -1) 
             {
@@ -101,13 +195,32 @@ public class QuestionsController : ControllerBase
             );
 
             return Results.NoContent();
+        }
     }
 
     [HttpDelete("{id}", Name = "DeleteQuestions")]
     public IResult Delete(int id)
     {
-        questions.RemoveAll(question => question.Id == id);
+        if(useMongoDB)
+        {
+            //Placeholder
+            questions.RemoveAll(question => question.Id == id);
 
-        return Results.NoContent();
+            return Results.NoContent();
+        }
+        else 
+        {
+            questions.RemoveAll(question => question.Id == id);
+
+            return Results.NoContent();
+        }
+    }
+
+    private QuestionDto GetData(QuestionDto _newQuestion)
+    {        
+        var filter = Builders<QuestionDto>.Filter
+                                        .Eq(question => question.Id, _newQuestion.Id);
+
+        return _options.Mongo_DB_Collection.Find(filter).FirstOrDefault();
     }
 }

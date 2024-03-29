@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9dP/4nwdZNXZguZcfyIxC2udVLPEjhzCDyzjvc67Nct/tqsA7PLMzb+C0vNrVygttA4d4B5hs1EMOfyXbmZt7Q==",
+  "dgSpecHash": "4PimBt+4kx0eRFWK1Lb9jvGycsZdKAN/QwokYPQVtTVClJ1FcjHaf3048gKjnTieOmsvIsV+AZhphMLnpxYIpA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Sam\\Documents\\GitHub\\AskSam_API\\AskSam_API.csproj",
+  "projectFilePath": "c:\\Users\\Sam\\Documents\\GitHub\\AskSam_API\\AskSam_API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Sam\\.nuget\\packages\\awssdk.core\\3.7.100.14\\awssdk.core.3.7.100.14.nupkg.sha512",
     "C:\\Users\\Sam\\.nuget\\packages\\awssdk.securitytoken\\3.7.100.14\\awssdk.securitytoken.3.7.100.14.nupkg.sha512",

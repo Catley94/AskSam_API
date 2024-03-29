@@ -63,3 +63,16 @@ c:\Users\Sam\Documents\GitHub\AskSam_API\obj\Debug\net8.0\refint\AskSam_API.dll
 c:\Users\Sam\Documents\GitHub\AskSam_API\obj\Debug\net8.0\AskSam_API.pdb
 c:\Users\Sam\Documents\GitHub\AskSam_API\obj\Debug\net8.0\AskSam_API.genruntimeconfig.cache
 c:\Users\Sam\Documents\GitHub\AskSam_API\obj\Debug\net8.0\ref\AskSam_API.dll
+c:\Users\Sam\Documents\GitHub\AskSam_API\bin\Debug\net8.0\AWSSDK.Core.dll
+c:\Users\Sam\Documents\GitHub\AskSam_API\bin\Debug\net8.0\AWSSDK.SecurityToken.dll
+c:\Users\Sam\Documents\GitHub\AskSam_API\bin\Debug\net8.0\DnsClient.dll
+c:\Users\Sam\Documents\GitHub\AskSam_API\bin\Debug\net8.0\MongoDB.Bson.dll
+c:\Users\Sam\Documents\GitHub\AskSam_API\bin\Debug\net8.0\MongoDB.Driver.dll
+c:\Users\Sam\Documents\GitHub\AskSam_API\bin\Debug\net8.0\MongoDB.Driver.Core.dll
+c:\Users\Sam\Documents\GitHub\AskSam_API\bin\Debug\net8.0\MongoDB.Libmongocrypt.dll
+c:\Users\Sam\Documents\GitHub\AskSam_API\bin\Debug\net8.0\SharpCompress.dll
+c:\Users\Sam\Documents\GitHub\AskSam_API\bin\Debug\net8.0\Snappier.dll
+c:\Users\Sam\Documents\GitHub\AskSam_API\bin\Debug\net8.0\ZstdSharp.dll
+c:\Users\Sam\Documents\GitHub\AskSam_API\bin\Debug\net8.0\runtimes\linux\native\libmongocrypt.so
+c:\Users\Sam\Documents\GitHub\AskSam_API\bin\Debug\net8.0\runtimes\osx\native\libmongocrypt.dylib
+c:\Users\Sam\Documents\GitHub\AskSam_API\bin\Debug\net8.0\runtimes\win\native\mongocrypt.dll

@@ -1,7 +1,7 @@
 namespace EmptyDotNetWebAPI2.Dtos;
 
 public record class QuestionDto(
-    int Id,
+    long Id,
     bool Answered,
     string Question,
     string Answer,

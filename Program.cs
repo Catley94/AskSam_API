@@ -1,6 +1,34 @@
+using MongoDB.Driver;
+using MongoDB.Bson;
+using AskSam_API;
+using EmptyDotNetWebAPI2.Dtos;
+
+
+
 var builder = WebApplication.CreateBuilder(args);
 
-var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins"; 
+
+
+string? connectionString = builder.Configuration.GetConnectionString("AskSam_MongoDB");
+
+
+if(connectionString != String.Empty)
+{
+    var client = new MongoClient(connectionString);
+
+    //If it cannot find the DB, it will create it
+    //Then create the collection
+    var db = client.GetDatabase("AskSamDb");
+    db.CreateCollection("askSamCollection");
+
+    IMongoCollection<QuestionDto> collection = db.GetCollection<QuestionDto>("askSamCollection");
+
+    builder.Services.AddSingleton(new Public_DB {
+        Mongo_DB_Collection = collection
+    });
+} else {
+    Console.WriteLine("Warning: Connection string is empty, there is no connection to a DB.");
+}
 
 
 
@@ -10,6 +38,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins"; 
+
 
 builder.Services.AddCors(options =>  
 {  
