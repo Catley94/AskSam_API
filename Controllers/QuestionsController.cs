@@ -23,15 +23,36 @@ public class QuestionsController : ControllerBase
     }
 
     [HttpGet(Name = "GetQuestions")]
-    public IEnumerable<QuestionDto> Get()
+    public IEnumerable<QuestionDto> Get([FromQuery] int[] ids)
     {
-        // Create empty filter, which will return the full db list
-        var filter = Builders<QuestionDto>.Filter.Empty;
-        return publicDB.Mongo_DB_Collection.Find(filter).SortByDescending(question => question.Id).ToList();
+        if(ids.Count() == 0)
+        {
+            // Create empty filter, which will return the full db list
+            var filter = Builders<QuestionDto>.Filter.Empty;
+            return publicDB.Mongo_DB_Collection.Find(filter).SortBy(question => question.Id).ToList();
+        } 
+        else 
+        {
+            List<QuestionDto> collectedQuestionsFromIds = new List<QuestionDto>();
+            foreach (int id in ids)
+            {
+                FilterDefinition<QuestionDto> filter = CreateFilterBy(id);
+                List<QuestionDto> foundQuestionList = publicDB.Mongo_DB_Collection.Find(filter).ToList();
+
+                if(foundQuestionList.Count > 0)
+                {
+                    foreach(QuestionDto question in foundQuestionList)
+                    {
+                        collectedQuestionsFromIds.Add(question);
+                    }
+                }
+            }
+            return collectedQuestionsFromIds.ToList();
+        }
     }
 
     // GET: /questions/{id}
-    [HttpGet("{id}", Name = "GetQuestionById")]
+    [HttpGet("{id}", Name = "GetQuestionsById")]
     public IResult GetQuestionById(int id) 
     {
         FilterDefinition<QuestionDto> filter = CreateFilterBy(id);

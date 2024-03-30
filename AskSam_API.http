@@ -9,7 +9,11 @@ GET {{AskSam_API_HostAddress}}/questions/
 
 ###
 
-GET {{AskSam_API_HostAddress}}/questions/2
+GET {{AskSam_API_HostAddress}}/questions?ids=1&ids=2
+
+###
+
+GET {{AskSam_API_HostAddress}}/questions/0
 
 ###
 POST {{AskSam_API_HostAddress}}/questions
@@ -34,13 +38,13 @@ Content-Type: application/json
 }
 
 ###
-PUT {{AskSam_API_HostAddress}}/questions/2
+PUT {{AskSam_API_HostAddress}}/questions/0
 Content-Type: application/json
 
 {
     "Answered": true,
-    "Question": "What colour is Spaces?",
-    "Answer": "Dark Red",
+    "Question": "What is my name?",
+    "Answer": "Sam",
     "Type": "General"
 }
 
