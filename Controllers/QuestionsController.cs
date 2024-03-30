@@ -51,8 +51,9 @@ public class QuestionsController : ControllerBase
     {
         if(useMongoDB) 
         {
-            //Placeholder
-            return questions.ToArray();
+            var filter = Builders<QuestionDto>.Filter.Empty;
+            return _options.Mongo_DB_Collection.Find(filter)
+                                        .ToList();
         } 
         else
         {
@@ -66,10 +67,14 @@ public class QuestionsController : ControllerBase
     {
         if(useMongoDB) 
         {
-            //Placeholder
-            QuestionDto? question = questions.Find(question => question.Id == id);
+           // Creates a filter for all documents that have a "name" value of "Bagels N Buns"
+            var filter = Builders<QuestionDto>.Filter
+                .Eq(question => question.Id, id);
+            // Retrieves the first document that matches the filter
+            var question = _options.Mongo_DB_Collection.Find(filter).FirstOrDefault();
 
             return question is null ? Results.NotFound() : Results.Ok(question);
+
         }
         else 
         {
@@ -153,26 +158,35 @@ public class QuestionsController : ControllerBase
 
         if(useMongoDB)
         {
-            //Placeholder
-            var index1 = questions.FindIndex((question) => question.Id == id);
 
-            if(index1 == -1) 
+            // Creates a filter for all documents with a "name" of "Bagels N Buns"
+            var filter = Builders<QuestionDto>.Filter
+                .Eq(question => question.Id, id);
+            
+
+            var oldQuestion = _options.Mongo_DB_Collection.Find(filter).First();
+
+            if(oldQuestion != null) 
+            {
+                DateOnly dateCreated = oldQuestion.DateCreated;
+                QuestionDto _updatedQuestion = new QuestionDto(
+                    id,
+                    updatedQuestion.Answered,
+                    updatedQuestion.Question,
+                    updatedQuestion.Answer,
+                    updatedQuestion.Type,
+                    dateCreated,
+                    DateOnly.FromDateTime(DateTime.Now)
+                );
+
+                _options.Mongo_DB_Collection.ReplaceOne(filter, _updatedQuestion);
+                
+                return Results.NoContent();
+            } 
+            else 
             {
                 return Results.NotFound();
             }
-
-            DateOnly dateCreated1 = questions[index1].DateCreated;
-            questions[index1] = new QuestionDto(
-                index1,
-                updatedQuestion.Answered,
-                updatedQuestion.Question,
-                updatedQuestion.Answer,
-                updatedQuestion.Type,
-                dateCreated1,
-                DateOnly.FromDateTime(DateTime.Now)
-            );
-
-            return Results.NoContent();
         } 
         else
         {

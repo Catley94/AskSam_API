@@ -9,7 +9,7 @@ GET {{AskSam_API_HostAddress}}/questions/
 
 ###
 
-GET {{AskSam_API_HostAddress}}/questions/0
+GET {{AskSam_API_HostAddress}}/questions/6
 
 ###
 POST {{AskSam_API_HostAddress}}/questions
@@ -34,7 +34,7 @@ Content-Type: application/json
 }
 
 ###
-PUT {{AskSam_API_HostAddress}}/questions/2
+PUT {{AskSam_API_HostAddress}}/questions/6
 Content-Type: application/json
 
 {
