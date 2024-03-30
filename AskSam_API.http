@@ -45,4 +45,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE {{AskSam_API_HostAddress}}/questions/3
+DELETE {{AskSam_API_HostAddress}}/questions/6

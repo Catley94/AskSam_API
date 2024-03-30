@@ -217,9 +217,12 @@ public class QuestionsController : ControllerBase
     {
         if(useMongoDB)
         {
-            //Placeholder
-            questions.RemoveAll(question => question.Id == id);
+            // Creates a filter for all documents with a "name" of "Bagels N Buns"
+            var filter = Builders<QuestionDto>.Filter
+                .Eq(question => question.Id, id);
 
+            // Deletes the first document that matches the filter
+            _options.Mongo_DB_Collection.DeleteOne(filter);
             return Results.NoContent();
         }
         else 
