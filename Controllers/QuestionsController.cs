@@ -27,7 +27,7 @@ public class QuestionsController : ControllerBase
     {
         // Create empty filter, which will return the full db list
         var filter = Builders<QuestionDto>.Filter.Empty;
-        return publicDB.Mongo_DB_Collection.Find(filter).ToList();
+        return publicDB.Mongo_DB_Collection.Find(filter).SortByDescending(question => question.Id).ToList();
     }
 
     // GET: /questions/{id}
