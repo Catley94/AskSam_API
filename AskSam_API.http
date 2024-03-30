@@ -9,16 +9,16 @@ GET {{AskSam_API_HostAddress}}/questions/
 
 ###
 
-GET {{AskSam_API_HostAddress}}/questions/6
+GET {{AskSam_API_HostAddress}}/questions/2
 
 ###
 POST {{AskSam_API_HostAddress}}/questions
 Content-Type: application/json
 
 {
-    "Answered": true,
+    "Answered": false,
     "Question": "What colour is the sky?",
-    "Answer": "Blue",
+    "Answer": "",
     "Type": "General"
 }
 
@@ -34,7 +34,7 @@ Content-Type: application/json
 }
 
 ###
-PUT {{AskSam_API_HostAddress}}/questions/6
+PUT {{AskSam_API_HostAddress}}/questions/2
 Content-Type: application/json
 
 {
@@ -45,4 +45,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE {{AskSam_API_HostAddress}}/questions/6
+DELETE {{AskSam_API_HostAddress}}/questions/0

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace EmptyDotNetWebAPI2.Dtos;
+namespace AskSam.Dtos;
 
 public record class CreateQuestionDto(
     [Required]bool Answered, 

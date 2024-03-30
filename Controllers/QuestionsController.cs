@@ -1,4 +1,4 @@
-using EmptyDotNetWebAPI2.Dtos;
+using AskSam.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
@@ -12,194 +12,85 @@ namespace AskSam_API.Controllers;
 public class QuestionsController : ControllerBase
 {
 
-    private readonly Public_DB _options;
-
-    private static readonly List<QuestionDto> questions = 
-    [
-        new (
-            0,
-            true,
-            "What is my question?",
-            "No idea!",
-            "General",
-            new DateOnly(2024,03,27),
-            null
-        ),
-        new (
-            1,
-            false,
-            "Is this empty?",
-            "",
-            "General",
-            new DateOnly(2024,03,27),
-            null
-        )
-    ];
+    private readonly Public_DB publicDB;
 
     private readonly ILogger<QuestionsController> _logger;
-
-    private bool useMongoDB = true;
 
     public QuestionsController(ILogger<QuestionsController> logger, Public_DB options)
     {
         _logger = logger;
-        _options = options;
+        publicDB = options;
     }
 
     [HttpGet(Name = "GetQuestions")]
     public IEnumerable<QuestionDto> Get()
     {
-        if(useMongoDB) 
-        {
-            var filter = Builders<QuestionDto>.Filter.Empty;
-            return _options.Mongo_DB_Collection.Find(filter)
-                                        .ToList();
-        } 
-        else
-        {
-            return questions.ToArray();
-        }
+        // Create empty filter, which will return the full db list
+        var filter = Builders<QuestionDto>.Filter.Empty;
+        return publicDB.Mongo_DB_Collection.Find(filter).ToList();
     }
 
-    // GET: /Questions/{id}
+    // GET: /questions/{id}
     [HttpGet("{id}", Name = "GetQuestionById")]
     public IResult GetQuestionById(int id) 
     {
-        if(useMongoDB) 
-        {
-           // Creates a filter for all documents that have a "name" value of "Bagels N Buns"
-            var filter = Builders<QuestionDto>.Filter
-                .Eq(question => question.Id, id);
-            // Retrieves the first document that matches the filter
-            var question = _options.Mongo_DB_Collection.Find(filter).FirstOrDefault();
+        FilterDefinition<QuestionDto> filter = CreateFilterBy(id);
+        // Retrieves the first document that matches the filter
+        var question = publicDB.Mongo_DB_Collection.Find(filter).FirstOrDefault();
 
-            return question is null ? Results.NotFound() : Results.Ok(question);
-
-        }
-        else 
-        {
-
-            QuestionDto? question = questions.Find(question => question.Id == id);
-
-            return question is null ? Results.NotFound() : Results.Ok(question);
-        }
+        return question is null ? Results.NotFound() : Results.Ok(question);        
     }
 
+    //POST: /questions
     [HttpPost(Name = "PostQuestions")]
     public IResult Post(CreateQuestionDto newQuestion)
     {
-        
-        
-        
 
-        if(useMongoDB)
+        // Get a count of all the documents in DB
+        long count = publicDB.Mongo_DB_Collection.EstimatedDocumentCount();
+
+        QuestionDto _newQuestion = new QuestionDto(
+            count,
+            newQuestion.Answered,
+            newQuestion.Question,
+            newQuestion.Answer,
+            newQuestion.Type,
+            DateOnly.FromDateTime(DateTime.Now),
+            null
+        );
+
+        //Insert into DB
+        publicDB.Mongo_DB_Collection.InsertOne(_newQuestion);
+        
+        //Find in DB to check it has ben inserted correctly
+        QuestionDto retrievedQuestion = GetData(_newQuestion);
+        
+        if(retrievedQuestion != null) 
         {
-
-            //TEMP!! TODO: Do not find by question, find by ID.
-            // var filter = Builders<QuestionDto>.Filter
-            //                                 .Eq(question => question.Question, _newQuestion.Question);
-            // var count = _options.Mongo_DB_Collection.Find(filter).CountDocuments();
-            
-            // Creates a filter for all documents that have a "cuisine" value of "Pizza"
-            long count = _options.Mongo_DB_Collection.EstimatedDocumentCount();
-            QuestionDto _newQuestion = new QuestionDto(
-                count,
-                newQuestion.Answered,
-                newQuestion.Question,
-                newQuestion.Answer,
-                newQuestion.Type,
-                DateOnly.FromDateTime(DateTime.Now),
-                null
-            );
-
-            //Insert into DB
-            _options.Mongo_DB_Collection.InsertOne(_newQuestion);
-            
-            //Find in DB to check it has ben inserted correctly
-            QuestionDto retrievedQuestion = GetData(_newQuestion);
-            
-
-            Console.WriteLine(retrievedQuestion);
-
-
             return Results.CreatedAtRoute("GetQuestions", new {id = _newQuestion.Id}, _newQuestion);
-
         }
         else 
         {
-            QuestionDto _newQuestion = new QuestionDto(
-                questions.Count(),
-                newQuestion.Answered,
-                newQuestion.Question,
-                newQuestion.Answer,
-                newQuestion.Type,
-                DateOnly.FromDateTime(DateTime.Now),
-                null
-            );
-            questions.Add(_newQuestion);
-
-            int foundIndex = questions.FindIndex(question => question == _newQuestion);
-
-            if(foundIndex > -1) 
-            {
-                return Results.CreatedAtRoute("GetQuestions", new {id = _newQuestion.Id}, _newQuestion);
-            } 
-            else
-            {
-                //Check this is the right code
-                return Results.NoContent();
-            } 
+            return Results.NoContent();
         }
+
     }
 
+    //PUT: /questions/{id}
     [HttpPut("{id}", Name = "UpdateQuestions")]
     public IResult Put(int id, CreateQuestionDto updatedQuestion)
     {
 
-        if(useMongoDB)
+        // Creates a filter for all documents for a matching id
+        FilterDefinition<QuestionDto> filter = CreateFilterBy(id);
+        
+        var oldQuestion = publicDB.Mongo_DB_Collection.Find(filter).First();
+
+        if(oldQuestion != null) 
         {
-
-            // Creates a filter for all documents with a "name" of "Bagels N Buns"
-            var filter = Builders<QuestionDto>.Filter
-                .Eq(question => question.Id, id);
-            
-
-            var oldQuestion = _options.Mongo_DB_Collection.Find(filter).First();
-
-            if(oldQuestion != null) 
-            {
-                DateOnly dateCreated = oldQuestion.DateCreated;
-                QuestionDto _updatedQuestion = new QuestionDto(
-                    id,
-                    updatedQuestion.Answered,
-                    updatedQuestion.Question,
-                    updatedQuestion.Answer,
-                    updatedQuestion.Type,
-                    dateCreated,
-                    DateOnly.FromDateTime(DateTime.Now)
-                );
-
-                _options.Mongo_DB_Collection.ReplaceOne(filter, _updatedQuestion);
-                
-                return Results.NoContent();
-            } 
-            else 
-            {
-                return Results.NotFound();
-            }
-        } 
-        else
-        {
-            var index = questions.FindIndex((question) => question.Id == id);
-
-            if(index == -1) 
-            {
-                return Results.NotFound();
-            }
-
-            DateOnly dateCreated = questions[index].DateCreated;
-            questions[index] = new QuestionDto(
-                index,
+            DateOnly dateCreated = oldQuestion.DateCreated;
+            QuestionDto _updatedQuestion = new QuestionDto(
+                id,
                 updatedQuestion.Answered,
                 updatedQuestion.Question,
                 updatedQuestion.Answer,
@@ -208,36 +99,42 @@ public class QuestionsController : ControllerBase
                 DateOnly.FromDateTime(DateTime.Now)
             );
 
+            publicDB.Mongo_DB_Collection.ReplaceOne(filter, _updatedQuestion);
+            
             return Results.NoContent();
+        } 
+        else 
+        {
+            return Results.NotFound();
         }
+        
     }
 
+    //DELETE: /questions/{id}
     [HttpDelete("{id}", Name = "DeleteQuestions")]
     public IResult Delete(int id)
     {
-        if(useMongoDB)
-        {
-            // Creates a filter for all documents with a "name" of "Bagels N Buns"
-            var filter = Builders<QuestionDto>.Filter
-                .Eq(question => question.Id, id);
+    
+        // Creates a filter for all documents for a matching id
+        FilterDefinition<QuestionDto> filter = CreateFilterBy(id);
 
-            // Deletes the first document that matches the filter
-            _options.Mongo_DB_Collection.DeleteOne(filter);
-            return Results.NoContent();
-        }
-        else 
-        {
-            questions.RemoveAll(question => question.Id == id);
-
-            return Results.NoContent();
-        }
+        // Deletes the first document that matches the filter
+        publicDB.Mongo_DB_Collection.DeleteOne(filter);
+        return Results.NoContent();
+        
+        
     }
 
     private QuestionDto GetData(QuestionDto _newQuestion)
     {        
-        var filter = Builders<QuestionDto>.Filter
-                                        .Eq(question => question.Id, _newQuestion.Id);
+        var filter = CreateFilterBy(_newQuestion.Id);
 
-        return _options.Mongo_DB_Collection.Find(filter).FirstOrDefault();
+        return publicDB.Mongo_DB_Collection.Find(filter).FirstOrDefault();
+    }
+
+    private FilterDefinition<QuestionDto> CreateFilterBy(long id) 
+    {
+        return Builders<QuestionDto>.Filter
+                    .Eq(question => question.Id, id);
     }
 }

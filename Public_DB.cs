@@ -1,4 +1,4 @@
-﻿using EmptyDotNetWebAPI2.Dtos;
+﻿using AskSam.Dtos;
 using MongoDB.Driver;
 
 namespace AskSam_API;

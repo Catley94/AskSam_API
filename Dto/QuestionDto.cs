@@ -1,4 +1,4 @@
-namespace EmptyDotNetWebAPI2.Dtos;
+namespace AskSam.Dtos;
 
 public record class QuestionDto(
     long Id,

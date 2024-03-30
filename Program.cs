@@ -1,7 +1,7 @@
 using MongoDB.Driver;
 using MongoDB.Bson;
 using AskSam_API;
-using EmptyDotNetWebAPI2.Dtos;
+using AskSam.Dtos;
 
 
 
