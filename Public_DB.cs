@@ -5,5 +5,5 @@ namespace AskSam_API;
 
 public class Public_DB
 {
-    public IMongoCollection<QuestionDto> Mongo_DB_Collection { get; set; }
+    public IMongoCollection<QuestionDto> Mongo_DB_Question_Collection { get; set; }
 }

@@ -13,19 +13,15 @@ GET {{AskSam_API_HostAddress}}/questions/7ac79c82-b01b-46de-af5c-3d7db4bfeeaf
 
 ###
 
-GET {{AskSam_API_HostAddress}}/questions/5c7dd3fd-237e-40b6-96e7-19913f1ecb0d
+GET {{AskSam_API_HostAddress}}/questions/5c7dd3fd-237e-40b6-96e7-19913f1ecb0d/
+
+###
+
+GET {{AskSam_API_HostAddress}}/questions/5c7dd3fd-237e-40b6-96e7-19913f1ecb0d/8
 
 ###
 
 GET {{AskSam_API_HostAddress}}/questions/getclientid
-
-###
-
-GET {{AskSam_API_HostAddress}}/questions?ids=1&ids=2
-
-###
-
-GET {{AskSam_API_HostAddress}}/questions/0
 
 ###
 POST {{AskSam_API_HostAddress}}/questions
