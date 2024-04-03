@@ -54,6 +54,10 @@
               "target": "Package",
               "version": "[2.24.0, )"
             },
+            "RandomDataGenerator.Net": {
+              "target": "Package",
+              "version": "[1.0.17, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"

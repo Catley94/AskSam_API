@@ -2,6 +2,8 @@ using AskSam.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using RandomDataGenerator.FieldOptions;
+using RandomDataGenerator.Randomizers;
 using ZstdSharp.Unsafe;
 
 
@@ -22,45 +24,43 @@ public class QuestionsController : ControllerBase
         publicDB = options;
     }
 
-    [HttpGet(Name = "GetQuestions")]
-    public IEnumerable<QuestionDto> Get([FromQuery] int[] ids)
+    [HttpGet("", Name = "GetQuestions")]
+    public IResult Get() 
     {
-        if(ids.Count() == 0)
-        {
-            // Create empty filter, which will return the full db list
-            var filter = Builders<QuestionDto>.Filter.Empty;
-            return publicDB.Mongo_DB_Collection.Find(filter).SortBy(question => question.Id).ToList();
-        } 
-        else 
-        {
-            List<QuestionDto> collectedQuestionsFromIds = new List<QuestionDto>();
-            foreach (int id in ids)
-            {
-                FilterDefinition<QuestionDto> filter = CreateFilterBy(id);
-                List<QuestionDto> foundQuestionList = publicDB.Mongo_DB_Collection.Find(filter).ToList();
+        //Clients need to send their guid with the GET request.
+        return Results.Problem("No client guid found, please include this within GET request, like so: /questions/7ac79c82-b01b-46de-af5c-3d7db4bfeeaf");
+    }
 
-                if(foundQuestionList.Count > 0)
-                {
-                    foreach(QuestionDto question in foundQuestionList)
-                    {
-                        collectedQuestionsFromIds.Add(question);
-                    }
-                }
-            }
-            return collectedQuestionsFromIds.ToList();
-        }
+    [HttpGet("{guid}", Name = "GetAllClientIdQuestions")]
+    public IResult GetAllClientIdQuestions(Guid guid)
+    {
+        FilterDefinition<QuestionDto> filter = CreateFilterByClientId(guid); 
+        List<QuestionDto> questions = publicDB.Mongo_DB_Collection.Find(filter).SortBy(question => question.Id).ToList();
+        return Results.Ok(questions);
     }
 
     // GET: /questions/{id}
-    [HttpGet("{id}", Name = "GetQuestionsById")]
-    public IResult GetQuestionById(int id) 
+    [HttpGet("{clientId}/{questionId}", Name = "GetQuestionsById")]
+    public IResult GetQuestionByClientAndId(Guid guid, int questionId) 
     {
-        FilterDefinition<QuestionDto> filter = CreateFilterBy(id);
+        //TODO: Should filter out only questions matching guid and question id
+        FilterDefinition<QuestionDto> filter = CreateFilterByClientId(guid); 
         // Retrieves the first document that matches the filter
         var question = publicDB.Mongo_DB_Collection.Find(filter).FirstOrDefault();
 
         return question is null ? Results.NotFound() : Results.Ok(question);        
     }
+
+    [HttpGet("getclientid", Name = "GetClientID")]
+    public IResult GetClientId() {
+        // Generate a random guid and send back to the client
+        // Client should request this only if there isn't one already in cookies
+        IRandomizerGuid randomizerGuid = RandomizerFactory.GetRandomizer(new FieldOptionsGuid());
+        Guid? _guid = randomizerGuid.Generate();
+        return Results.Ok(_guid);
+    }
+
+
 
     //POST: /questions
     [HttpPost(Name = "PostQuestions")]
@@ -72,6 +72,7 @@ public class QuestionsController : ControllerBase
 
         QuestionDto _newQuestion = new QuestionDto(
             count,
+            newQuestion.Guid,
             newQuestion.Answered,
             newQuestion.Question,
             newQuestion.Answer,
@@ -99,19 +100,22 @@ public class QuestionsController : ControllerBase
 
     //PUT: /questions/{id}
     [HttpPut("{id}", Name = "UpdateQuestions")]
-    public IResult Put(int id, CreateQuestionDto updatedQuestion)
+    public IResult Put(int id, UpdateQuestionDto updatedQuestion)
     {
 
         // Creates a filter for all documents for a matching id
-        FilterDefinition<QuestionDto> filter = CreateFilterBy(id);
+        FilterDefinition<QuestionDto> filter = CreateFilterByQuestionId(id);
         
         var oldQuestion = publicDB.Mongo_DB_Collection.Find(filter).First();
 
         if(oldQuestion != null) 
         {
             DateOnly dateCreated = oldQuestion.DateCreated;
+            Guid guid = oldQuestion.Guid;
+
             QuestionDto _updatedQuestion = new QuestionDto(
                 id,
+                guid,
                 updatedQuestion.Answered,
                 updatedQuestion.Question,
                 updatedQuestion.Answer,
@@ -137,7 +141,7 @@ public class QuestionsController : ControllerBase
     {
     
         // Creates a filter for all documents for a matching id
-        FilterDefinition<QuestionDto> filter = CreateFilterBy(id);
+        FilterDefinition<QuestionDto> filter = CreateFilterByQuestionId(id);
 
         // Deletes the first document that matches the filter
         publicDB.Mongo_DB_Collection.DeleteOne(filter);
@@ -148,14 +152,20 @@ public class QuestionsController : ControllerBase
 
     private QuestionDto GetData(QuestionDto _newQuestion)
     {        
-        var filter = CreateFilterBy(_newQuestion.Id);
+        var filter = CreateFilterByQuestionId(_newQuestion.Id);
 
         return publicDB.Mongo_DB_Collection.Find(filter).FirstOrDefault();
     }
 
-    private FilterDefinition<QuestionDto> CreateFilterBy(long id) 
+    private FilterDefinition<QuestionDto> CreateFilterByQuestionId(long id) 
     {
         return Builders<QuestionDto>.Filter
                     .Eq(question => question.Id, id);
+    }
+
+    private FilterDefinition<QuestionDto> CreateFilterByClientId(Guid guid) 
+    {
+        return Builders<QuestionDto>.Filter
+                    .Eq(question => question.Guid, guid);
     }
 }

@@ -47,6 +47,19 @@
           }
         }
       },
+      "Fare/2.2.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/Fare.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/Fare.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.Extensions.ApiDescription.Server/6.0.5": {
         "type": "package",
         "build": {
@@ -209,6 +222,23 @@
           }
         }
       },
+      "RandomDataGenerator.Net/1.0.17": {
+        "type": "package",
+        "dependencies": {
+          "Fare": "2.2.0",
+          "Stef.Validation": "0.1.0"
+        },
+        "compile": {
+          "lib/netstandard2.1/RandomDataGenerator.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/RandomDataGenerator.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
       "SharpCompress/0.30.1": {
         "type": "package",
         "compile": {
@@ -229,6 +259,15 @@
           "lib/net5.0/Snappier.dll": {
             "related": ".xml"
           }
+        }
+      },
+      "Stef.Validation/0.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Stef.Validation.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/Stef.Validation.dll": {}
         }
       },
       "Swashbuckle.AspNetCore/6.4.0": {
@@ -457,6 +496,23 @@
         "lib/netstandard2.0/DnsClient.xml",
         "lib/netstandard2.1/DnsClient.dll",
         "lib/netstandard2.1/DnsClient.xml"
+      ]
+    },
+    "Fare/2.2.0": {
+      "sha512": "KQiRf7ZsxtM7ue768Wm1mnA7JfwbSJ1kUQv3+6U4LheJ/4aKITiVMsE6GPOrwKqBY9h/ROUpILyyZsJl76j7aQ==",
+      "type": "package",
+      "path": "fare/2.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fare.2.2.0.nupkg.sha512",
+        "fare.nuspec",
+        "lib/net35/Fare.dll",
+        "lib/net35/Fare.xml",
+        "lib/netstandard1.1/Fare.dll",
+        "lib/netstandard1.1/Fare.xml",
+        "lib/netstandard2.1/Fare.dll",
+        "lib/netstandard2.1/Fare.xml"
       ]
     },
     "Microsoft.Extensions.ApiDescription.Server/6.0.5": {
@@ -867,6 +923,27 @@
         "runtimes/win/native/mongocrypt.dll"
       ]
     },
+    "RandomDataGenerator.Net/1.0.17": {
+      "sha512": "pNKMXcv3wxPUfk5JMR2m+2KQNGX5srD0J4bIGaZDC48H5v8TkbrZtd3WNtdIA4WiQwi9iKLRl24q6EIprKvD8A==",
+      "type": "package",
+      "path": "randomdatagenerator.net/1.0.17",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net35/RandomDataGenerator.dll",
+        "lib/net35/RandomDataGenerator.pdb",
+        "lib/net45/RandomDataGenerator.dll",
+        "lib/net45/RandomDataGenerator.pdb",
+        "lib/netstandard1.3/RandomDataGenerator.dll",
+        "lib/netstandard1.3/RandomDataGenerator.pdb",
+        "lib/netstandard2.0/RandomDataGenerator.dll",
+        "lib/netstandard2.0/RandomDataGenerator.pdb",
+        "lib/netstandard2.1/RandomDataGenerator.dll",
+        "lib/netstandard2.1/RandomDataGenerator.pdb",
+        "randomdatagenerator.net.1.0.17.nupkg.sha512",
+        "randomdatagenerator.net.nuspec"
+      ]
+    },
     "SharpCompress/0.30.1": {
       "sha512": "XqD4TpfyYGa7QTPzaGlMVbcecKnXy4YmYLDWrU+JIj7IuRNl7DH2END+Ll7ekWIY8o3dAMWLFDE1xdhfIWD1nw==",
       "type": "package",
@@ -901,6 +978,27 @@
         "lib/netstandard2.1/Snappier.xml",
         "snappier.1.0.0.nupkg.sha512",
         "snappier.nuspec"
+      ]
+    },
+    "Stef.Validation/0.1.0": {
+      "sha512": "WWIzJ2WNoqRgHL23At3xFFw56I4YeWUJ35a7Rsgv9V0FIjZb3gY/4e8DqH0M2I9KOU8MBfKl5a7B9EtjvnI9dg==",
+      "type": "package",
+      "path": "stef.validation/0.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net20/Stef.Validation.dll",
+        "lib/net35/Stef.Validation.dll",
+        "lib/net40/Stef.Validation.dll",
+        "lib/net5.0/Stef.Validation.dll",
+        "lib/net6.0/Stef.Validation.dll",
+        "lib/netcoreapp3.1/Stef.Validation.dll",
+        "lib/netstandard1.0/Stef.Validation.dll",
+        "lib/netstandard1.3/Stef.Validation.dll",
+        "lib/netstandard2.0/Stef.Validation.dll",
+        "lib/netstandard2.1/Stef.Validation.dll",
+        "stef.validation.0.1.0.nupkg.sha512",
+        "stef.validation.nuspec"
       ]
     },
     "Swashbuckle.AspNetCore/6.4.0": {
@@ -1194,6 +1292,7 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "MongoDB.Driver >= 2.24.0",
+      "RandomDataGenerator.Net >= 1.0.17",
       "Swashbuckle.AspNetCore >= 6.4.0"
     ]
   },
@@ -1250,6 +1349,10 @@
           "MongoDB.Driver": {
             "target": "Package",
             "version": "[2.24.0, )"
+          },
+          "RandomDataGenerator.Net": {
+            "target": "Package",
+            "version": "[1.0.17, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",

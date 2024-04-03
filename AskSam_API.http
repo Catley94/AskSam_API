@@ -9,6 +9,18 @@ GET {{AskSam_API_HostAddress}}/questions/
 
 ###
 
+GET {{AskSam_API_HostAddress}}/questions/7ac79c82-b01b-46de-af5c-3d7db4bfeeaf
+
+###
+
+GET {{AskSam_API_HostAddress}}/questions/a21703ea-0ebd-4dc7-80f0-bb4e2e842a8c
+
+###
+
+GET {{AskSam_API_HostAddress}}/questions/getclientid
+
+###
+
 GET {{AskSam_API_HostAddress}}/questions?ids=1&ids=2
 
 ###
@@ -20,6 +32,7 @@ POST {{AskSam_API_HostAddress}}/questions
 Content-Type: application/json
 
 {
+    "Guid": "7ac79c82-b01b-46de-af5c-3d7db4bfeeaf",
     "Answered": false,
     "Question": "What colour is the sky?",
     "Answer": "",
@@ -31,6 +44,7 @@ POST {{AskSam_API_HostAddress}}/questions
 Content-Type: application/json
 
 {
+    "Guid": "7ac79c82-b01b-46de-af5c-3d7db4bfeeaf",
     "Answered": true,
     "Question": "What colour is Space?",
     "Answer": "Dark Blue",
@@ -42,6 +56,7 @@ PUT {{AskSam_API_HostAddress}}/questions/0
 Content-Type: application/json
 
 {
+    "Guid": "7ac79c82-b01b-46de-af5c-3d7db4bfeeaf",
     "Answered": true,
     "Question": "What is my name?",
     "Answer": "Sam",

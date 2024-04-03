@@ -76,3 +76,6 @@ c:\Users\Sam\Documents\GitHub\AskSam_API\bin\Debug\net8.0\ZstdSharp.dll
 c:\Users\Sam\Documents\GitHub\AskSam_API\bin\Debug\net8.0\runtimes\linux\native\libmongocrypt.so
 c:\Users\Sam\Documents\GitHub\AskSam_API\bin\Debug\net8.0\runtimes\osx\native\libmongocrypt.dylib
 c:\Users\Sam\Documents\GitHub\AskSam_API\bin\Debug\net8.0\runtimes\win\native\mongocrypt.dll
+c:\Users\Sam\Documents\GitHub\AskSam_API\bin\Debug\net8.0\Fare.dll
+c:\Users\Sam\Documents\GitHub\AskSam_API\bin\Debug\net8.0\RandomDataGenerator.dll
+c:\Users\Sam\Documents\GitHub\AskSam_API\bin\Debug\net8.0\Stef.Validation.dll

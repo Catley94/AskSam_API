@@ -9,6 +9,7 @@
       "AskSam_API/1.0.0": {
         "dependencies": {
           "MongoDB.Driver": "2.24.0",
+          "RandomDataGenerator.Net": "1.0.17",
           "Swashbuckle.AspNetCore": "6.4.0"
         },
         "runtime": {
@@ -42,6 +43,14 @@
           "lib/net5.0/DnsClient.dll": {
             "assemblyVersion": "1.6.1.0",
             "fileVersion": "1.6.1.0"
+          }
+        }
+      },
+      "Fare/2.2.0": {
+        "runtime": {
+          "lib/netstandard2.1/Fare.dll": {
+            "assemblyVersion": "2.2.0.0",
+            "fileVersion": "2.2.0.0"
           }
         }
       },
@@ -132,6 +141,18 @@
           }
         }
       },
+      "RandomDataGenerator.Net/1.0.17": {
+        "dependencies": {
+          "Fare": "2.2.0",
+          "Stef.Validation": "0.1.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/RandomDataGenerator.dll": {
+            "assemblyVersion": "1.0.17.0",
+            "fileVersion": "1.0.17.0"
+          }
+        }
+      },
       "SharpCompress/0.30.1": {
         "runtime": {
           "lib/net5.0/SharpCompress.dll": {
@@ -145,6 +166,14 @@
           "lib/net5.0/Snappier.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Stef.Validation/0.1.0": {
+        "runtime": {
+          "lib/net6.0/Stef.Validation.dll": {
+            "assemblyVersion": "0.1.0.0",
+            "fileVersion": "0.1.0.0"
           }
         }
       },
@@ -233,6 +262,13 @@
       "path": "dnsclient/1.6.1",
       "hashPath": "dnsclient.1.6.1.nupkg.sha512"
     },
+    "Fare/2.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KQiRf7ZsxtM7ue768Wm1mnA7JfwbSJ1kUQv3+6U4LheJ/4aKITiVMsE6GPOrwKqBY9h/ROUpILyyZsJl76j7aQ==",
+      "path": "fare/2.2.0",
+      "hashPath": "fare.2.2.0.nupkg.sha512"
+    },
     "Microsoft.Extensions.ApiDescription.Server/6.0.5": {
       "type": "package",
       "serviceable": true,
@@ -296,6 +332,13 @@
       "path": "mongodb.libmongocrypt/1.8.2",
       "hashPath": "mongodb.libmongocrypt.1.8.2.nupkg.sha512"
     },
+    "RandomDataGenerator.Net/1.0.17": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pNKMXcv3wxPUfk5JMR2m+2KQNGX5srD0J4bIGaZDC48H5v8TkbrZtd3WNtdIA4WiQwi9iKLRl24q6EIprKvD8A==",
+      "path": "randomdatagenerator.net/1.0.17",
+      "hashPath": "randomdatagenerator.net.1.0.17.nupkg.sha512"
+    },
     "SharpCompress/0.30.1": {
       "type": "package",
       "serviceable": true,
@@ -309,6 +352,13 @@
       "sha512": "sha512-rFtK2KEI9hIe8gtx3a0YDXdHOpedIf9wYCEYtBEmtlyiWVX3XlCNV03JrmmAi/Cdfn7dxK+k0sjjcLv4fpHnqA==",
       "path": "snappier/1.0.0",
       "hashPath": "snappier.1.0.0.nupkg.sha512"
+    },
+    "Stef.Validation/0.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WWIzJ2WNoqRgHL23At3xFFw56I4YeWUJ35a7Rsgv9V0FIjZb3gY/4e8DqH0M2I9KOU8MBfKl5a7B9EtjvnI9dg==",
+      "path": "stef.validation/0.1.0",
+      "hashPath": "stef.validation.0.1.0.nupkg.sha512"
     },
     "Swashbuckle.AspNetCore/6.4.0": {
       "type": "package",
