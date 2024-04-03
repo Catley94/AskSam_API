@@ -28,7 +28,7 @@ POST {{AskSam_API_HostAddress}}/questions
 Content-Type: application/json
 
 {
-    "Guid": "7ac79c82-b01b-46de-af5c-3d7db4bfeeaf",
+    "clientGuid": "7ac79c82-b01b-46de-af5c-3d7db4bfeeaf",
     "Answered": false,
     "Question": "What colour is the sky?",
     "Answer": "",
@@ -60,4 +60,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE {{AskSam_API_HostAddress}}/questions/0
+DELETE {{AskSam_API_HostAddress}}/questions/d658df03-b929-4d01-9f02-dbbd39cb3e12

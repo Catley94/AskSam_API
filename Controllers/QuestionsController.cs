@@ -12,14 +12,16 @@ namespace AskSam_API.Controllers;
 public class QuestionsController : ControllerBase
 {
 
-    private readonly Public_DB publicDB;
+    // private readonly Public_DB publicDB;
+    private readonly Database _database;
 
     private readonly ILogger<QuestionsController> _logger;
 
-    public QuestionsController(ILogger<QuestionsController> logger, Public_DB mongoDBs)
+    public QuestionsController(ILogger<QuestionsController> logger, Database database)
     {
         _logger = logger;
-        publicDB = mongoDBs;
+        // publicDB = mongoDBs;
+        _database = database;
     }
 
     [HttpGet("", Name = "GetQuestions")]
@@ -32,27 +34,34 @@ public class QuestionsController : ControllerBase
     [HttpGet("{guid}", Name = "GetAllClientIdQuestions")]
     public IResult GetAllClientIdQuestions(Guid guid)
     {
-        FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByClientId(guid); 
-        List<QuestionDto> questions = publicDB.Mongo_DB_Question_Collection.Find(filter).SortBy(question => question.Id).ToList();
+        // FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByClientId(guid); 
+        // List<QuestionDto> questions = publicDB.Mongo_DB_Question_Collection.Find(filter).SortBy(question => question.Id).ToList();
+        List<QuestionDto> questions = _database.FindAllByClientId(guid);
         return Results.Ok(questions);
     }
 
     [HttpGet("allquestions", Name = "GetAllQuestions")]
     public IEnumerable<QuestionDto> GetAllQuestions()
     {
+        return _database.FindAll();
         // Create empty filter, which will return the full db list
-        var filter = Builders<QuestionDto>.Filter.Empty;
-        return publicDB.Mongo_DB_Question_Collection.Find(filter).SortBy(question => question.Id).ToList();
+        // var filter = Builders<QuestionDto>.Filter.Empty;
+        // return publicDB.Mongo_DB_Question_Collection.Find(filter).SortBy(question => question.Id).ToList();
     }
 
     // GET: /questions/{id}
     [HttpGet("{guid}/{questionId}", Name = "GetQuestionsById")]
     public IResult GetQuestionByClientAndId(Guid guid, int questionId) 
     {
-        //TODO: Should filter out only questions matching guid and question id
-        FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByClientId(guid); 
+    
+        // FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByClientId(guid); 
+       
         // Retrieves the first document that matches the filter
-        var question = publicDB.Mongo_DB_Question_Collection.Find(filter).FirstOrDefault();
+        // var question = publicDB.Mongo_DB_Question_Collection.Find(filter).FirstOrDefault();
+        
+        QuestionDto question = _database.FindFirst(guid);
+
+        
 
         return question is null ? Results.NotFound() : Results.Ok(question);        
     }
@@ -88,7 +97,7 @@ public class QuestionsController : ControllerBase
     {
 
         // Get a count of all the documents in DB
-        long count = publicDB.Mongo_DB_Question_Collection.EstimatedDocumentCount();
+        long count = _database.TotalCount();
         // Get new random guid
         Guid? guid = GenerateNewRandomGuid();
         
@@ -105,14 +114,19 @@ public class QuestionsController : ControllerBase
         );
 
         //Insert into DB
-        publicDB.Mongo_DB_Question_Collection.InsertOne(_newQuestion);
+        // publicDB.Mongo_DB_Question_Collection.InsertOne(_newQuestion);
         
         //Find in DB to check it has ben inserted correctly
-        QuestionDto retrievedQuestion = GetData(_newQuestion);
+        // QuestionDto retrievedQuestion = GetData(_newQuestion);
+
+        //Database API
+        QuestionDto retrievedQuestion = _database.Insert(_newQuestion);
         
         if(retrievedQuestion != null) 
         {
-            return Results.CreatedAtRoute("GetQuestions", new {id = _newQuestion.Id}, _newQuestion);
+            // return Results.CreatedAtRoute("GetQuestions", new {id = _newQuestion.Id}, _newQuestion);
+            //Database API
+            return Results.CreatedAtRoute("GetQuestions", new {id = retrievedQuestion.Id}, retrievedQuestion);
         }
         else 
         {
@@ -129,18 +143,17 @@ public class QuestionsController : ControllerBase
         // Creates a filter for all documents for a matching id
         // Filtering by Id is fine here, because it'll be the private frontend,
         // which will not have a client Id
-        FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByQuestionId(id);
         
-        var oldQuestion = publicDB.Mongo_DB_Question_Collection.Find(filter).First();
+        var oldQuestion = _database.FindFirst(id);
 
         if(oldQuestion != null) 
         {
             DateOnly dateCreated = oldQuestion.DateCreated;
-            Guid? questionGuid = oldQuestion.Id;
+            Guid? questionId = oldQuestion.Id;
             Guid clientGuid = oldQuestion.ClientGuid;
 
             QuestionDto _updatedQuestion = new QuestionDto(
-                questionGuid,
+                questionId,
                 clientGuid,
                 updatedQuestion.Answered,
                 updatedQuestion.Question,
@@ -150,8 +163,9 @@ public class QuestionsController : ControllerBase
                 DateOnly.FromDateTime(DateTime.Now)
             );
 
-            publicDB.Mongo_DB_Question_Collection.ReplaceOne(filter, _updatedQuestion);
-            
+            // publicDB.Mongo_DB_Question_Collection.ReplaceOne(filter, _updatedQuestion);
+            _database.Replace(questionId, _updatedQuestion);
+
             return Results.NoContent();
         } 
         else 
@@ -165,34 +179,10 @@ public class QuestionsController : ControllerBase
     [HttpDelete("{id}", Name = "DeleteQuestions")]
     public IResult Delete(Guid? id)
     {
-    
-        // Creates a filter for all documents for a matching id
-        // This is also OK to filter by ID, since it won't be the public front end deleting questions
-        FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByQuestionId(id);
-
-        // Deletes the first document that matches the filter
-        publicDB.Mongo_DB_Question_Collection.DeleteOne(filter);
+        // publicDB.Mongo_DB_Question_Collection.DeleteOne(filter);
+        _database.DeleteOne(id);
         return Results.NoContent();
-        
-        
     }
 
-    private QuestionDto GetData(QuestionDto _newQuestion)
-    {        
-        var filter = CreateQuestionDTOFilterByQuestionId(_newQuestion.Id);
-
-        return publicDB.Mongo_DB_Question_Collection.Find(filter).FirstOrDefault();
-    }
-
-    private FilterDefinition<QuestionDto> CreateQuestionDTOFilterByQuestionId(Guid? id) 
-    {
-        return Builders<QuestionDto>.Filter
-                    .Eq(question => question.Id, id);
-    }
-
-    private FilterDefinition<QuestionDto> CreateQuestionDTOFilterByClientId(Guid guid) 
-    {
-        return Builders<QuestionDto>.Filter
-                    .Eq(question => question.ClientGuid, guid);
-    }
+    
 }
