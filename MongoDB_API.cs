@@ -40,13 +40,13 @@ public class MongoDB_API : Database
     public override List<QuestionDto> FindAll()
     {
         FilterDefinition<QuestionDto> filter = Builders<QuestionDto>.Filter.Empty;
-        return publicDB.Mongo_DB_Question_Collection.Find(filter).SortBy(question => question.Id).ToList();
+        return publicDB.Mongo_DB_Question_Collection.Find(filter).ToList();
     }
 
     public override List<QuestionDto> FindAllByClientId(Guid? clientId)
     {
         FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByClientId(clientId); 
-        return publicDB.Mongo_DB_Question_Collection.Find(filter).SortBy(question => question.Id).ToList();
+        return publicDB.Mongo_DB_Question_Collection.Find(filter).ToList();
     }
 
     public override QuestionDto? FindFirst(Guid? questionId)
