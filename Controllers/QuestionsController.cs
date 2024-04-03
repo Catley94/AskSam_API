@@ -42,7 +42,7 @@ public class QuestionsController : ControllerBase
     public IResult GetAllClientIdQuestions(Guid guid)
     {
         FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByClientId(guid); 
-        List<QuestionDto> questions = publicDB.Mongo_DB_Question_Collection.Find(filter).SortBy(question => question.QuestionId).ToList();
+        List<QuestionDto> questions = publicDB.Mongo_DB_Question_Collection.Find(filter).SortBy(question => question.Id).ToList();
         return Results.Ok(questions);
     }
 
@@ -51,7 +51,7 @@ public class QuestionsController : ControllerBase
     {
         // Create empty filter, which will return the full db list
         var filter = Builders<QuestionDto>.Filter.Empty;
-        return publicDB.Mongo_DB_Question_Collection.Find(filter).SortBy(question => question.QuestionId).ToList();
+        return publicDB.Mongo_DB_Question_Collection.Find(filter).SortBy(question => question.Id).ToList();
     }
 
     // GET: /questions/{id}
@@ -121,7 +121,7 @@ public class QuestionsController : ControllerBase
         
         if(retrievedQuestion != null) 
         {
-            return Results.CreatedAtRoute("GetQuestions", new {id = _newQuestion.QuestionId}, _newQuestion);
+            return Results.CreatedAtRoute("GetQuestions", new {id = _newQuestion.Id}, _newQuestion);
         }
         else 
         {
@@ -145,7 +145,7 @@ public class QuestionsController : ControllerBase
         if(oldQuestion != null) 
         {
             DateOnly dateCreated = oldQuestion.DateCreated;
-            Guid? questionGuid = oldQuestion.QuestionId;
+            Guid? questionGuid = oldQuestion.Id;
             Guid clientGuid = oldQuestion.ClientGuid;
 
             QuestionDto _updatedQuestion = new QuestionDto(
@@ -188,7 +188,7 @@ public class QuestionsController : ControllerBase
 
     private QuestionDto GetData(QuestionDto _newQuestion)
     {        
-        var filter = CreateQuestionDTOFilterByQuestionId(_newQuestion.QuestionId);
+        var filter = CreateQuestionDTOFilterByQuestionId(_newQuestion.Id);
 
         return publicDB.Mongo_DB_Question_Collection.Find(filter).FirstOrDefault();
     }
@@ -196,7 +196,7 @@ public class QuestionsController : ControllerBase
     private FilterDefinition<QuestionDto> CreateQuestionDTOFilterByQuestionId(Guid? id) 
     {
         return Builders<QuestionDto>.Filter
-                    .Eq(question => question.QuestionId, id);
+                    .Eq(question => question.Id, id);
     }
 
     private FilterDefinition<QuestionDto> CreateQuestionDTOFilterByClientId(Guid guid) 

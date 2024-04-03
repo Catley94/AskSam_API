@@ -9,7 +9,7 @@ GET {{AskSam_API_HostAddress}}/questions/allquestions
 
 ###
 
-GET {{AskSam_API_HostAddress}}/questions/7ac79c82-b01b-46de-af5c-3d7db4bfeeaf
+GET {{AskSam_API_HostAddress}}/questions/cf195c27-8cf0-4a51-a9bf-97fe6720de51
 
 ###
 
@@ -48,7 +48,7 @@ Content-Type: application/json
 }
 
 ###
-PUT {{AskSam_API_HostAddress}}/questions/8
+PUT {{AskSam_API_HostAddress}}/questions/d658df03-b929-4d01-9f02-dbbd39cb3e12
 Content-Type: application/json
 
 {
