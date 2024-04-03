@@ -31,6 +31,14 @@ public class QuestionsController : ControllerBase
         return Results.Problem("No client guid found, please include this within GET request, like so: /questions/7ac79c82-b01b-46de-af5c-3d7db4bfeeaf");
     }
 
+    [HttpGet("allquestions", Name = "GetAllQuestions")]
+    public IEnumerable<QuestionDto> GetAllQuestions()
+    {
+        // Create empty filter, which will return the full db list
+        var filter = Builders<QuestionDto>.Filter.Empty;
+        return publicDB.Mongo_DB_Collection.Find(filter).SortBy(question => question.Id).ToList();
+    }
+
     [HttpGet("{guid}", Name = "GetAllClientIdQuestions")]
     public IResult GetAllClientIdQuestions(Guid guid)
     {
@@ -104,6 +112,8 @@ public class QuestionsController : ControllerBase
     {
 
         // Creates a filter for all documents for a matching id
+        // Filtering by Id is fine here, because it'll be the private frontend,
+        // which will not have a client Id
         FilterDefinition<QuestionDto> filter = CreateFilterByQuestionId(id);
         
         var oldQuestion = publicDB.Mongo_DB_Collection.Find(filter).First();
@@ -141,6 +151,7 @@ public class QuestionsController : ControllerBase
     {
     
         // Creates a filter for all documents for a matching id
+        // This is also OK to filter by ID, since it won't be the public front end deleting questions
         FilterDefinition<QuestionDto> filter = CreateFilterByQuestionId(id);
 
         // Deletes the first document that matches the filter

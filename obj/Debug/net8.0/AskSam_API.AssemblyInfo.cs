@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AskSam_API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cdf25c14bc3780dad274762dafd676da0888c209")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b18b3357702ecb0a9aa4de14158a836024e2b15a")]
 [assembly: System.Reflection.AssemblyProductAttribute("AskSam_API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AskSam_API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

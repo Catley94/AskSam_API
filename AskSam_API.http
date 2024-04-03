@@ -5,7 +5,7 @@ Accept: application/json
 
 ###
 
-GET {{AskSam_API_HostAddress}}/questions/
+GET {{AskSam_API_HostAddress}}/questions/allquestions
 
 ###
 
@@ -13,7 +13,7 @@ GET {{AskSam_API_HostAddress}}/questions/7ac79c82-b01b-46de-af5c-3d7db4bfeeaf
 
 ###
 
-GET {{AskSam_API_HostAddress}}/questions/a21703ea-0ebd-4dc7-80f0-bb4e2e842a8c
+GET {{AskSam_API_HostAddress}}/questions/5c7dd3fd-237e-40b6-96e7-19913f1ecb0d
 
 ###
 
@@ -52,7 +52,7 @@ Content-Type: application/json
 }
 
 ###
-PUT {{AskSam_API_HostAddress}}/questions/0
+PUT {{AskSam_API_HostAddress}}/questions/8
 Content-Type: application/json
 
 {
