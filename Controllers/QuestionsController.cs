@@ -12,15 +12,6 @@ namespace AskSam_API.Controllers;
 public class QuestionsController : ControllerBase
 {
 
-    /*
-        TODO: Create additional database to hold all guids,
-            check new guids against all documents in DB so not to create a duplicate.
-        TODO-BUG: Currently we create the IDs of questions with the count of the documents.
-            However when I delete a question, and create another one,
-            the new ID it will create is the count of the db, which will already have been taken
-            by the previous question. 
-            Generate random guid for each Question
-    */
     private readonly Public_DB publicDB;
 
     private readonly ILogger<QuestionsController> _logger;
