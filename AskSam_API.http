@@ -9,7 +9,7 @@ GET {{AskSam_API_HostAddress}}/questions/allquestions
 
 ###
 
-GET {{AskSam_API_HostAddress}}/questions/9c0e90ca-e88c-4151-8c14-515879374640
+GET {{AskSam_API_HostAddress}}/questions/3327cf26-f40c-4b21-8643-813d8dc47af4
 ###
 
 GET {{AskSam_API_HostAddress}}/questions/5c7dd3fd-237e-40b6-96e7-19913f1ecb0d/
@@ -47,7 +47,7 @@ Content-Type: application/json
 }
 
 ###
-PUT {{AskSam_API_HostAddress}}/questions/d8d46a39-3bae-4132-b84b-b7f0a21914f8
+PUT {{AskSam_API_HostAddress}}/questions/5ae1007b-5f07-431f-b08a-96823dbbcaf6
 Content-Type: application/json
 
 {

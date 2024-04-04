@@ -19,12 +19,12 @@ public abstract class Database
     }
 
     public abstract QuestionDto Insert(QuestionDto question); 
-    public abstract void DeleteOne(Guid? questionId);
+    public abstract void DeleteOne(string? questionId);
     public abstract long TotalCount();
     public abstract List<QuestionDto> FindAll();
-    public abstract List<QuestionDto> FindAllByClientId(Guid? clientId);
-    public abstract QuestionDto? FindFirst(Guid? questionId);
-    public abstract ReplaceOneResult Replace(Guid? questionId, QuestionDto updatedQuestion);
+    public abstract List<QuestionDto> FindAllByClientId(string? clientId);
+    public abstract QuestionDto? FindFirst(string? questionId);
+    public abstract ReplaceOneResult Replace(string? questionId, QuestionDto updatedQuestion);
 
     
 

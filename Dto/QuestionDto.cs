@@ -1,8 +1,8 @@
 namespace AskSam.Dtos;
 
 public record class QuestionDto(
-    Guid? Id,
-    Guid ClientGuid,
+    string? Id,
+    string? ClientGuid,
     bool Answered,
     string Question,
     string Answer,

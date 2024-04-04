@@ -36,7 +36,7 @@ public class QuestionsController : ControllerBase
     {
         // FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByClientId(guid); 
         // List<QuestionDto> questions = publicDB.Mongo_DB_Question_Collection.Find(filter).SortBy(question => question.Id).ToList();
-        List<QuestionDto> questions = _database.FindAllByClientId(guid);
+        List<QuestionDto> questions = _database.FindAllByClientId(guid.ToString());
         return Results.Ok(questions);
     }
 
@@ -59,7 +59,7 @@ public class QuestionsController : ControllerBase
         // Retrieves the first document that matches the filter
         // var question = publicDB.Mongo_DB_Question_Collection.Find(filter).FirstOrDefault();
         
-        QuestionDto question = _database.FindFirst(guid);
+        QuestionDto? question = _database.FindFirst(guid.ToString());
 
         
 
@@ -96,14 +96,12 @@ public class QuestionsController : ControllerBase
     public IResult Post(CreateQuestionDto newQuestion)
     {
 
-        // Get a count of all the documents in DB
-        long count = _database.TotalCount();
         // Get new random guid
         Guid? guid = GenerateNewRandomGuid();
         
 
         QuestionDto _newQuestion = new QuestionDto(
-            guid,
+            guid.ToString(),
             newQuestion.ClientGuid,
             newQuestion.Answered,
             newQuestion.Question,
@@ -144,13 +142,13 @@ public class QuestionsController : ControllerBase
         // Filtering by Id is fine here, because it'll be the private frontend,
         // which will not have a client Id
         
-        var oldQuestion = _database.FindFirst(id);
+        var oldQuestion = _database.FindFirst(id.ToString());
 
         if(oldQuestion != null) 
         {
             DateOnly dateCreated = oldQuestion.DateCreated;
-            Guid? questionId = oldQuestion.Id;
-            Guid clientGuid = oldQuestion.ClientGuid;
+            string? questionId = oldQuestion?.Id?.ToString();
+            string? clientGuid = oldQuestion?.ClientGuid?.ToString();
 
             QuestionDto _updatedQuestion = new QuestionDto(
                 questionId,
@@ -180,7 +178,7 @@ public class QuestionsController : ControllerBase
     public IResult Delete(Guid? id)
     {
         // publicDB.Mongo_DB_Question_Collection.DeleteOne(filter);
-        _database.DeleteOne(id);
+        _database.DeleteOne(id.ToString());
         return Results.NoContent();
     }
 

@@ -31,7 +31,7 @@ public class MongoDB_API : Database
         }   
     }
 
-    public override void DeleteOne(Guid? questionId)
+    public override void DeleteOne(string? questionId)
     {
         FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByQuestionId(questionId);
         publicDB.Mongo_DB_Question_Collection.DeleteOne(filter);
@@ -43,13 +43,13 @@ public class MongoDB_API : Database
         return publicDB.Mongo_DB_Question_Collection.Find(filter).ToList();
     }
 
-    public override List<QuestionDto> FindAllByClientId(Guid? clientId)
+    public override List<QuestionDto> FindAllByClientId(string? clientId)
     {
         FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByClientId(clientId); 
         return publicDB.Mongo_DB_Question_Collection.Find(filter).ToList();
     }
 
-    public override QuestionDto? FindFirst(Guid? questionId)
+    public override QuestionDto? FindFirst(string? questionId)
     {
         FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByQuestionId(questionId);
         
@@ -65,7 +65,7 @@ public class MongoDB_API : Database
         return GetData(question);
     }
 
-    public override ReplaceOneResult Replace(Guid? questionId, QuestionDto updatedQuestion)
+    public override ReplaceOneResult Replace(string? questionId, QuestionDto updatedQuestion)
     {
         FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByQuestionId(questionId);
         ReplaceOneResult ReplacedResult = publicDB.Mongo_DB_Question_Collection.ReplaceOne(filter, updatedQuestion);
@@ -84,13 +84,13 @@ public class MongoDB_API : Database
         return publicDB.Mongo_DB_Question_Collection.Find(filter).FirstOrDefault();
     }
 
-    protected FilterDefinition<QuestionDto> CreateQuestionDTOFilterByQuestionId(Guid? id) 
+    protected FilterDefinition<QuestionDto> CreateQuestionDTOFilterByQuestionId(string? id) 
     {
         return Builders<QuestionDto>.Filter
                     .Eq(question => question.Id, id);
     }
 
-    private FilterDefinition<QuestionDto> CreateQuestionDTOFilterByClientId(Guid? guid) 
+    private FilterDefinition<QuestionDto> CreateQuestionDTOFilterByClientId(string? guid) 
     {
         return Builders<QuestionDto>.Filter
                     .Eq(question => question.ClientGuid, guid);
