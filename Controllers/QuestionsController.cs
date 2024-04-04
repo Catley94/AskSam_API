@@ -137,7 +137,7 @@ public class QuestionsController : ControllerBase
 
     //PUT: /questions/{id}
     [HttpPut("{id}", Name = "UpdateQuestions")]
-    public IResult Put(Guid? id, UpdateQuestionDto updatedQuestion)
+    public IResult Put(Guid? id, [FromBody] UpdateQuestionDto updatedQuestion)
     {
 
         // Creates a filter for all documents for a matching id

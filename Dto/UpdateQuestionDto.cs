@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 namespace AskSam.Dtos;
 
 public record class UpdateQuestionDto(
-    [Required]int Id, 
     [Required]Guid ClientGuid,
     [Required]bool Answered, 
     [Required][StringLength(200)]string Question, 

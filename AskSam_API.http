@@ -9,8 +9,7 @@ GET {{AskSam_API_HostAddress}}/questions/allquestions
 
 ###
 
-GET {{AskSam_API_HostAddress}}/questions/cf195c27-8cf0-4a51-a9bf-97fe6720de51
-
+GET {{AskSam_API_HostAddress}}/questions/9c0e90ca-e88c-4151-8c14-515879374640
 ###
 
 GET {{AskSam_API_HostAddress}}/questions/5c7dd3fd-237e-40b6-96e7-19913f1ecb0d/
@@ -48,11 +47,11 @@ Content-Type: application/json
 }
 
 ###
-PUT {{AskSam_API_HostAddress}}/questions/a69c77c6-9217-4ab8-8977-bb9e4750621a
+PUT {{AskSam_API_HostAddress}}/questions/d8d46a39-3bae-4132-b84b-b7f0a21914f8
 Content-Type: application/json
 
 {
-    "Guid": "7ac79c82-b01b-46de-af5c-3d7db4bfeeaf",
+    "ClientGuid": "7bc984bb-43d5-4c77-9e1c-b1a3c1fae2c6",
     "Answered": true,
     "Question": "What is my name?",
     "Answer": "Sam",
@@ -60,4 +59,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE {{AskSam_API_HostAddress}}/questions/d658df03-b929-4d01-9f02-dbbd39cb3e12
+DELETE {{AskSam_API_HostAddress}}/questions/2a8a2480-70f7-414f-b049-24a2569e7e56
