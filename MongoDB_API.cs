@@ -65,11 +65,10 @@ public class MongoDB_API : Database
         return GetData(question);
     }
 
-    public override ReplaceOneResult Replace(string? questionId, QuestionDto updatedQuestion)
+    public override void Replace(string? questionId, QuestionDto updatedQuestion)
     {
         FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByQuestionId(questionId);
         ReplaceOneResult ReplacedResult = publicDB.Mongo_DB_Question_Collection.ReplaceOne(filter, updatedQuestion);
-        return ReplacedResult;
     }
 
     public override long TotalCount()

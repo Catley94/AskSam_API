@@ -24,7 +24,7 @@ public abstract class Database
     public abstract List<QuestionDto> FindAll();
     public abstract List<QuestionDto> FindAllByClientId(string? clientId);
     public abstract QuestionDto? FindFirst(string? questionId);
-    public abstract ReplaceOneResult Replace(string? questionId, QuestionDto updatedQuestion);
+    public abstract void Replace(string? questionId, QuestionDto updatedQuestion);
 
     
 

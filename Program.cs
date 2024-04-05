@@ -2,16 +2,37 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using AskSam_API;
 using AskSam.Dtos;
+using AskSam_API.Data;
 
-
+const string MongoDbService = "MongoDB";
+const string SqliteService = "sqlite";
 
 var builder = WebApplication.CreateBuilder(args);
 
-string? connectionString = builder.Configuration.GetConnectionString("AskSam_MongoDB");
-Database database = new MongoDB_API(connectionString);
+string dbService = SqliteService;
 
+string? mongoDbConnectionString = builder.Configuration.GetConnectionString("AskSam_MongoDB");
+string? sqliteConnectionString = builder.Configuration.GetConnectionString("AskSam_Sqlite");
+Database? database = null;
 
-builder.Services.AddSingleton(database);
+switch(dbService) 
+{
+    case MongoDbService:
+        database = new MongoDB_API(mongoDbConnectionString);
+    break;
+    case SqliteService:
+        database = new SqliteDB_API(sqliteConnectionString);
+        builder.Services.AddSqlite<AskSamContext>(sqliteConnectionString);
+        
+    break;
+    default:
+        database = null;
+        Console.WriteLine("Error, unable to determine what database service to use.");
+    break;
+}
+
+if(database != null) builder.Services.AddSingleton(database);
+
 
 // Add services to the container.
 
@@ -56,5 +77,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+if(dbService == SqliteService) app.MigrateDb();
 
 app.Run();
