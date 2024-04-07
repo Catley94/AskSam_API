@@ -9,7 +9,7 @@ const string SqliteService = "sqlite";
 
 var builder = WebApplication.CreateBuilder(args);
 
-string dbService = SqliteService;
+string dbService = MongoDbService;
 
 string? mongoDbConnectionString = builder.Configuration.GetConnectionString("AskSam_MongoDB");
 string? sqliteConnectionString = builder.Configuration.GetConnectionString("AskSam_Sqlite");
