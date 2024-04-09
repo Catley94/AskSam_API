@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\Sam\\Documents\\GitHub\\AskSam_API\\AskSam_API.csproj": {}
+    "C:\\Users\\Sam\\Documents\\GitHub\\AskSam_API\\AskSam_API.csproj": {}
   },
   "projects": {
-    "c:\\Users\\Sam\\Documents\\GitHub\\AskSam_API\\AskSam_API.csproj": {
+    "C:\\Users\\Sam\\Documents\\GitHub\\AskSam_API\\AskSam_API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\Sam\\Documents\\GitHub\\AskSam_API\\AskSam_API.csproj",
+        "projectUniqueName": "C:\\Users\\Sam\\Documents\\GitHub\\AskSam_API\\AskSam_API.csproj",
         "projectName": "AskSam_API",
-        "projectPath": "c:\\Users\\Sam\\Documents\\GitHub\\AskSam_API\\AskSam_API.csproj",
+        "projectPath": "C:\\Users\\Sam\\Documents\\GitHub\\AskSam_API\\AskSam_API.csproj",
         "packagesPath": "C:\\Users\\Sam\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\Sam\\Documents\\GitHub\\AskSam_API\\obj\\",
+        "outputPath": "C:\\Users\\Sam\\Documents\\GitHub\\AskSam_API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -53,6 +53,10 @@
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[8.0.2, )"
             },

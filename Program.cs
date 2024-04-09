@@ -6,24 +6,34 @@ using AskSam_API.Data;
 
 const string MongoDbService = "MongoDB";
 const string SqliteService = "sqlite";
+const string SqlService = "sql";
+
+const bool localDB = false;
 
 var builder = WebApplication.CreateBuilder(args);
 
 string dbService = MongoDbService;
 
-string? mongoDbConnectionString = builder.Configuration.GetConnectionString("AskSam_MongoDB");
-string? sqliteConnectionString = builder.Configuration.GetConnectionString("AskSam_Sqlite");
+string? localMongoDbConnectionString = builder.Configuration.GetConnectionString("Local_AskSam_MongoDB");
+string? azureMongoDbConnectionString = builder.Configuration.GetConnectionString("Azure_AskSam_MongoDB");
+string? sqliteConnectionString = builder.Configuration.GetConnectionString("Local_AskSam_Sqlite");
+string? localSqlConnectionString = builder.Configuration.GetConnectionString("Local_AskSam_Sql");
+string? azureSqlConnectionString = builder.Configuration.GetConnectionString("Azure_AskSam_Sql");
 Database? database = null;
 
 switch(dbService) 
 {
     case MongoDbService:
-        database = new MongoDB_API(mongoDbConnectionString);
+        database = new MongoDB_API(localDB ? localMongoDbConnectionString : azureMongoDbConnectionString);
     break;
     case SqliteService:
         database = new SqliteDB_API(sqliteConnectionString);
         builder.Services.AddSqlite<AskSamContext>(sqliteConnectionString);
         
+    break;
+    case SqlService:
+        database = new SQL_API(localDB ? localSqlConnectionString : azureSqlConnectionString);
+        builder.Services.AddSqlServer<AskSamContext>(sqliteConnectionString);
     break;
     default:
         database = null;
