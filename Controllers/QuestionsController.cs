@@ -1,4 +1,5 @@
 using AskSam.Dtos;
+using AskSam_API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using RandomDataGenerator.FieldOptions;
@@ -13,11 +14,11 @@ public class QuestionsController : ControllerBase
 {
 
     // private readonly Public_DB publicDB;
-    private readonly Database _database;
+    private readonly IDatabase _database;
 
     private readonly ILogger<QuestionsController> _logger;
 
-    public QuestionsController(ILogger<QuestionsController> logger, Database database)
+    public QuestionsController(ILogger<QuestionsController> logger, IDatabase database)
     {
         _logger = logger;
         // publicDB = mongoDBs;

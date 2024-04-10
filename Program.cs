@@ -3,6 +3,9 @@ using MongoDB.Bson;
 using AskSam_API;
 using AskSam.Dtos;
 using AskSam_API.Data;
+using AskSam_API.Interfaces;
+using AskSam_API.Database_APIs;
+
 
 const string MongoDbService = "MongoDB";
 const string SqliteService = "sqlite";
@@ -19,17 +22,12 @@ string? azureMongoDbConnectionString = builder.Configuration.GetConnectionString
 string? sqliteConnectionString = builder.Configuration.GetConnectionString("Local_AskSam_Sqlite");
 string? localSqlConnectionString = builder.Configuration.GetConnectionString("Local_AskSam_Sql");
 string? azureSqlConnectionString = builder.Configuration.GetConnectionString("Azure_AskSam_Sql");
-Database? database = null;
+IDatabase? database = null;
 
 switch(dbService) 
 {
     case MongoDbService:
         database = new MongoDB_API(localDB ? localMongoDbConnectionString : azureMongoDbConnectionString);
-    break;
-    case SqliteService:
-        database = new SqliteDB_API(sqliteConnectionString);
-        builder.Services.AddSqlite<AskSamContext>(sqliteConnectionString);
-        
     break;
     case SqlService:
         database = new SQL_API(localDB ? localSqlConnectionString : azureSqlConnectionString);

@@ -1,62 +1,69 @@
 ﻿using AskSam.Dtos;
+using AskSam_API.Interfaces;
 using MongoDB.Driver;
 
-namespace AskSam_API;
+namespace AskSam_API.Database_APIs;
 
-public class MongoDB_API : Database
+public class MongoDB_API : IDatabase
 {
+
+    private Public_DB? publicDB;
 
     string askSamQuestionCollectionName = "askSamQuestionCollection";
     string askSamQuestionDBName = "AS_Question_DB";
 
-    public MongoDB_API(string? connectionString) : base(connectionString) 
+    public MongoDB_API(string? connectionString)
     {
-        if(connectionString != String.Empty || connectionString != null)
+        if (connectionString != string.Empty || connectionString != null)
         {
             var client = new MongoClient(connectionString);
-            
+
             //If it cannot find the DB, it will create it
             //Then create the collection
             var questionDB = client.GetDatabase(askSamQuestionDBName);
-            questionDB.CreateCollection(askSamQuestionCollectionName);
+
+
 
             IMongoCollection<QuestionDto> questionCollection = questionDB.GetCollection<QuestionDto>(askSamQuestionCollectionName);
 
-            publicDB = new Public_DB {
+            publicDB = new Public_DB
+            {
                 Mongo_DB_Question_Collection = questionCollection
             };
 
-        } else {
+        }
+        else
+        {
             Console.WriteLine("Warning: Connection string is empty, there is no connection to a DB.");
-        }   
+        }
     }
 
-    public override void DeleteOne(string? questionId)
+    public void DeleteOne(string? questionId)
     {
         FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByQuestionId(questionId);
         publicDB.Mongo_DB_Question_Collection.DeleteOne(filter);
     }
 
-    public override List<QuestionDto> FindAll()
+    public List<QuestionDto> FindAll()
     {
         FilterDefinition<QuestionDto> filter = Builders<QuestionDto>.Filter.Empty;
         return publicDB.Mongo_DB_Question_Collection.Find(filter).ToList();
     }
 
-    public override List<QuestionDto> FindAllByClientId(string? clientId)
+    public List<QuestionDto> FindAllByClientId(string? clientId)
     {
-        FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByClientId(clientId); 
+        FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByClientId(clientId);
         return publicDB.Mongo_DB_Question_Collection.Find(filter).ToList();
     }
 
-    public override QuestionDto? FindFirst(string? questionId)
+    public QuestionDto? FindFirst(string? questionId)
     {
         FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByQuestionId(questionId);
-        
+
         return publicDB.Mongo_DB_Question_Collection.Find(filter).FirstOrDefault();
     }
 
-    public override QuestionDto Insert(QuestionDto question)
+    public QuestionDto Insert(QuestionDto question)
     {
         //Insert into DB
         publicDB.Mongo_DB_Question_Collection.InsertOne(question);
@@ -65,35 +72,35 @@ public class MongoDB_API : Database
         return GetData(question);
     }
 
-    public override void Replace(string? questionId, QuestionDto updatedQuestion)
+    public void Replace(string? questionId, QuestionDto updatedQuestion)
     {
         FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByQuestionId(questionId);
         ReplaceOneResult ReplacedResult = publicDB.Mongo_DB_Question_Collection.ReplaceOne(filter, updatedQuestion);
     }
 
-    public override long TotalCount()
+    public long TotalCount()
     {
         return publicDB.Mongo_DB_Question_Collection.EstimatedDocumentCount();
     }
 
     protected QuestionDto GetData(QuestionDto _newQuestion)
-    {        
+    {
         var filter = CreateQuestionDTOFilterByQuestionId(_newQuestion.Id);
 
         return publicDB.Mongo_DB_Question_Collection.Find(filter).FirstOrDefault();
     }
 
-    protected FilterDefinition<QuestionDto> CreateQuestionDTOFilterByQuestionId(string? id) 
+    protected FilterDefinition<QuestionDto> CreateQuestionDTOFilterByQuestionId(string? id)
     {
         return Builders<QuestionDto>.Filter
                     .Eq(question => question.Id, id);
     }
 
-    private FilterDefinition<QuestionDto> CreateQuestionDTOFilterByClientId(string? guid) 
+    private FilterDefinition<QuestionDto> CreateQuestionDTOFilterByClientId(string? guid)
     {
         return Builders<QuestionDto>.Filter
                     .Eq(question => question.ClientGuid, guid);
     }
 
-    
+
 }

@@ -24,7 +24,7 @@ Used for AskSam_Staff (https://github.com/Catley94/AskSam_Staff)
 DELTE /\<questionId\> => Used to delete questionIds, currently not being used by either Client or Staff.
 
 ## Databases
-#### Mongodb - Plans on using AWS or Azure for future. 
-#### Sqlite - Plans on using AWS or Azure for future.
+#### Mongodb - Is hosted on Azure.
+#### SQL - Plans on using Azure for future.
 (Adding more databases would be easy as I have abstracted this as a database layer.)
 
