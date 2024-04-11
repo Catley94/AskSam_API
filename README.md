@@ -15,7 +15,7 @@ Used for AskSam_Client (https://github.com/Catley94/AskSam_Client)
 GET /questions/getclientid => Creates a new guid for client, only used for clients without a client id and user has accepted cookies.
 Used for AskSam_Client (https://github.com/Catley94/AskSam_Client)
 
-POST /questions/questions => Create question in database under client guid
+POST /questions => Create question in database under client guid
 Used for AskSam_Client (https://github.com/Catley94/AskSam_Client)
 
 PUT /questions/\<questionId\> => Update question to questionId, used for answering questions. This auto populates a "DateAnswered" with the date that it's updated.
