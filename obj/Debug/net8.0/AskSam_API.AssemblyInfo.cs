@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AskSam_API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+39da2ac1583776c921bfb633858287d8d462957f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+42912d2afe5123c9808bda73722a05120bae113f")]
 [assembly: System.Reflection.AssemblyProductAttribute("AskSam_API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AskSam_API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

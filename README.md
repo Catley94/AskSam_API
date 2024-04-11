@@ -21,7 +21,7 @@ Used for AskSam_Client (https://github.com/Catley94/AskSam_Client)
 PUT /\<questionId\> => Update question to questionId, used for answering questions. This auto populates a "DateAnswered" with the date that it's updated.
 Used for AskSam_Staff (https://github.com/Catley94/AskSam_Staff)
 
-DELTE /\<questionId\> => Used to delete questionIds, currently not being used by either Client or Staff.
+DELETE /\<questionId\> => Used to delete questionIds, currently not being used by either Client or Staff.
 
 ## Databases
 #### Mongodb - Is hosted on Azure.
