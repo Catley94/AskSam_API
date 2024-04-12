@@ -1,5 +1,5 @@
-AskSam.db
-appsettings.json
-appsettings.Development.json
+./appsettings.json
+./appsettings.Development.json
 bin/
 .vs/
+obj/
