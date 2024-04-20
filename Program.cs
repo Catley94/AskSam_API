@@ -7,6 +7,7 @@ using AskSam_API.Interfaces;
 using AskSam_API.Database_APIs;
 
 
+
 const string MongoDbService = "MongoDB";
 const string SqliteService = "sqlite";
 const string SqlService = "sql";
@@ -15,7 +16,7 @@ const bool localDB = false;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string dbService = MongoDbService;
+string dbService = SqlService;
 
 string? localMongoDbConnectionString = builder.Configuration.GetConnectionString("Local_AskSam_MongoDB");
 string? azureMongoDbConnectionString = builder.Configuration.GetConnectionString("Azure_AskSam_MongoDB");

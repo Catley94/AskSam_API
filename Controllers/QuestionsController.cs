@@ -37,14 +37,16 @@ public class QuestionsController : ControllerBase
     {
         // FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByClientId(guid); 
         // List<QuestionDto> questions = publicDB.Mongo_DB_Question_Collection.Find(filter).SortBy(question => question.Id).ToList();
-        List<QuestionDto> questions = _database.FindAllByClientId(guid.ToString());
-        return Results.Ok(questions);
+
+        Task<List<QuestionDto>> questions = _database.FindAllByClientId(guid.ToString());
+        
+        return Results.Ok(questions.Result);
     }
 
     [HttpGet("allquestions", Name = "GetAllQuestions")]
-    public IEnumerable<QuestionDto> GetAllQuestions()
+    public List<QuestionDto> GetAllQuestions()
     {
-        return _database.FindAll();
+        return _database.FindAll().Result;
         // Create empty filter, which will return the full db list
         // var filter = Builders<QuestionDto>.Filter.Empty;
         // return publicDB.Mongo_DB_Question_Collection.Find(filter).SortBy(question => question.Id).ToList();
@@ -60,7 +62,7 @@ public class QuestionsController : ControllerBase
         // Retrieves the first document that matches the filter
         // var question = publicDB.Mongo_DB_Question_Collection.Find(filter).FirstOrDefault();
         
-        QuestionDto? question = _database.FindFirst(guid.ToString());
+        QuestionDto? question = _database.FindFirst(guid.ToString()).Result;
 
         
 
@@ -119,7 +121,7 @@ public class QuestionsController : ControllerBase
         // QuestionDto retrievedQuestion = GetData(_newQuestion);
 
         //Database API
-        QuestionDto retrievedQuestion = _database.Insert(_newQuestion);
+        QuestionDto? retrievedQuestion = _database.Insert(_newQuestion).Result;
         
         if(retrievedQuestion != null) 
         {
@@ -143,7 +145,7 @@ public class QuestionsController : ControllerBase
         // Filtering by Id is fine here, because it'll be the private frontend,
         // which will not have a client Id
         
-        var oldQuestion = _database.FindFirst(id.ToString());
+        var oldQuestion = _database.FindFirst(id.ToString()).Result;
 
         if(oldQuestion != null) 
         {
@@ -178,9 +180,16 @@ public class QuestionsController : ControllerBase
     [HttpDelete("{id}", Name = "DeleteQuestions")]
     public IResult Delete(Guid? id)
     {
-        // publicDB.Mongo_DB_Question_Collection.DeleteOne(filter);
-        _database.DeleteOne(id.ToString());
-        return Results.NoContent();
+        try
+        {
+            _database.DeleteOne(id.ToString());
+            return Results.NoContent();
+        }
+        catch (InvalidOperationException ex)
+        {
+            // Log the exception or return an appropriate error response
+            return Results.StatusCode(500);
+        }
     }
 
     

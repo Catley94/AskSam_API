@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AskSam.Dtos;
+using Microsoft.EntityFrameworkCore;
 
 namespace AskSam_API.Data;
 
 public class AskSamContext(DbContextOptions<AskSamContext> options) : DbContext(options)
 {
-    public DbSet<QuestionEntity> Questions => Set<QuestionEntity>();
+    // public DbSet<QuestionDto> Questions => Set<QuestionDto>();
+    public DbSet<QuestionDto> Questions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -4,11 +4,11 @@ namespace AskSam_API.Interfaces;
 
 public interface IDatabase
 {
-    QuestionDto Insert(QuestionDto question);
-    void DeleteOne(string? questionId);
-    long TotalCount();
-    List<QuestionDto> FindAll();
-    List<QuestionDto> FindAllByClientId(string? clientId);
-    QuestionDto? FindFirst(string? questionId);
-    void Replace(string? questionId, QuestionDto updatedQuestion);
+    Task<QuestionDto?> Insert(QuestionDto question);
+    Task DeleteOne(string? questionId);
+    Task<long> TotalCount();
+    Task<List<QuestionDto>> FindAll();
+    Task<List<QuestionDto>> FindAllByClientId(string? clientId);
+    Task<QuestionDto?> FindFirst(string? questionId);
+    Task<QuestionDto?> Replace(string? questionId, QuestionDto updatedQuestion);
 }

@@ -15,14 +15,14 @@ namespace AskSam_API.Data.Migrations
                 name: "Questions",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    ClientGuid = table.Column<string>(type: "TEXT", nullable: false),
-                    Answered = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Question = table.Column<string>(type: "TEXT", nullable: false),
-                    Answer = table.Column<string>(type: "TEXT", nullable: false),
-                    Type = table.Column<string>(type: "TEXT", nullable: false),
-                    DateCreated = table.Column<DateOnly>(type: "TEXT", nullable: false),
-                    DateAnswered = table.Column<DateOnly>(type: "TEXT", nullable: false)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClientGuid = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Answered = table.Column<bool>(type: "bit", nullable: false),
+                    Question = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Answer = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateCreated = table.Column<DateOnly>(type: "date", nullable: false),
+                    DateAnswered = table.Column<DateOnly>(type: "date", nullable: true)
                 },
                 constraints: table =>
                 {

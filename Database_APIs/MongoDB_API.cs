@@ -38,56 +38,53 @@ public class MongoDB_API : IDatabase
         }
     }
 
-    public void DeleteOne(string? questionId)
+    public async Task DeleteOne(string? questionId)
     {
         FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByQuestionId(questionId);
-        publicDB.Mongo_DB_Question_Collection.DeleteOne(filter);
+        await publicDB.Mongo_DB_Question_Collection.DeleteOneAsync(filter);
     }
 
-    public List<QuestionDto> FindAll()
+    public async Task<List<QuestionDto>> FindAll()
     {
         FilterDefinition<QuestionDto> filter = Builders<QuestionDto>.Filter.Empty;
-        return publicDB.Mongo_DB_Question_Collection.Find(filter).ToList();
+        return await publicDB.Mongo_DB_Question_Collection.Find(filter).ToListAsync();
     }
 
-    public List<QuestionDto> FindAllByClientId(string? clientId)
+    public async Task<List<QuestionDto>> FindAllByClientId(string? clientId)
     {
         FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByClientId(clientId);
-        return publicDB.Mongo_DB_Question_Collection.Find(filter).ToList();
+        return await publicDB.Mongo_DB_Question_Collection.Find(filter).ToListAsync();
     }
 
-    public QuestionDto? FindFirst(string? questionId)
+    public async Task<QuestionDto?> FindFirst(string? questionId)
     {
         FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByQuestionId(questionId);
-
-        return publicDB.Mongo_DB_Question_Collection.Find(filter).FirstOrDefault();
+        return await publicDB.Mongo_DB_Question_Collection.Find(filter).FirstOrDefaultAsync();
     }
 
-    public QuestionDto Insert(QuestionDto question)
+    public async Task<QuestionDto?> Insert(QuestionDto question)
     {
-        //Insert into DB
-        publicDB.Mongo_DB_Question_Collection.InsertOne(question);
-
-        //Find in DB to check it has ben inserted correctly
-        return GetData(question);
+        await publicDB.Mongo_DB_Question_Collection.InsertOneAsync(question);
+        return await GetData(question);
     }
 
-    public void Replace(string? questionId, QuestionDto updatedQuestion)
+    public async Task<QuestionDto?> Replace(string? questionId, QuestionDto updatedQuestion)
     {
         FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByQuestionId(questionId);
-        ReplaceOneResult ReplacedResult = publicDB.Mongo_DB_Question_Collection.ReplaceOne(filter, updatedQuestion);
+        await publicDB.Mongo_DB_Question_Collection.ReplaceOneAsync(filter, updatedQuestion);
+        return await GetData(updatedQuestion);
     }
 
-    public long TotalCount()
+    public async Task<long> TotalCount()
     {
-        return publicDB.Mongo_DB_Question_Collection.EstimatedDocumentCount();
+        return await publicDB.Mongo_DB_Question_Collection.EstimatedDocumentCountAsync();
     }
 
-    protected QuestionDto GetData(QuestionDto _newQuestion)
+    protected async Task<QuestionDto> GetData(QuestionDto _question)
     {
-        var filter = CreateQuestionDTOFilterByQuestionId(_newQuestion.Id);
+        var filter = CreateQuestionDTOFilterByQuestionId(_question.Id);
 
-        return publicDB.Mongo_DB_Question_Collection.Find(filter).FirstOrDefault();
+        return await publicDB.Mongo_DB_Question_Collection.Find(filter).FirstOrDefaultAsync();
     }
 
     protected FilterDefinition<QuestionDto> CreateQuestionDTOFilterByQuestionId(string? id)

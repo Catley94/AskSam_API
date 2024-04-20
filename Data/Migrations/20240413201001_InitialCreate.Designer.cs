@@ -4,6 +4,7 @@ using AskSam_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AskSam_API.Data.Migrations
 {
     [DbContext(typeof(AskSamContext))]
-    partial class AskSamContextModelSnapshot : ModelSnapshot
+    [Migration("20240413201001_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace AskSam_API.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AskSam.Dtos.QuestionDto", b =>
+            modelBuilder.Entity("AskSam_API.QuestionEntity", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -35,9 +38,10 @@ namespace AskSam_API.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ClientGuid")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly?>("DateAnswered")
+                    b.Property<DateOnly>("DateAnswered")
                         .HasColumnType("date");
 
                     b.Property<DateOnly>("DateCreated")
