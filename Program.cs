@@ -16,7 +16,7 @@ const bool localDB = false;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string dbService = SqlService;
+string dbService = MongoDbService;
 
 string? localMongoDbConnectionString = builder.Configuration.GetConnectionString("Local_AskSam_MongoDB");
 string? azureMongoDbConnectionString = builder.Configuration.GetConnectionString("Azure_AskSam_MongoDB");

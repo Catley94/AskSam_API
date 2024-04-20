@@ -37,10 +37,15 @@ public class QuestionsController : ControllerBase
     {
         // FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByClientId(guid); 
         // List<QuestionDto> questions = publicDB.Mongo_DB_Question_Collection.Find(filter).SortBy(question => question.Id).ToList();
-
-        Task<List<QuestionDto>> questions = _database.FindAllByClientId(guid.ToString());
+        try {
+            Task<List<QuestionDto>> questions = _database.FindAllByClientId(guid.ToString());
+            return Results.Ok(questions.Result);
+        }
+        catch (System.AggregateException ex)
+        {
+            return Results.StatusCode(500);
+        }
         
-        return Results.Ok(questions.Result);
     }
 
     [HttpGet("allquestions", Name = "GetAllQuestions")]
