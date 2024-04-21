@@ -87,6 +87,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-if(dbService == SqliteService) app.MigrateDb();
-
 app.Run();
