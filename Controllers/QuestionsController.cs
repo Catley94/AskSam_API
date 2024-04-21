@@ -52,18 +52,19 @@ public class QuestionsController : ControllerBase
     }
 
     [HttpGet("allquestions", Name = "GetAllQuestions")]
-    public IResult GetAllQuestions()
+    public ObjectResult GetAllQuestions()
     {
         _logger.LogInformation("GetAllQuestions: GET Request to /questions/allquestions");
         try {
             List<QuestionDto> questions = _database.FindAll().Result;
             _logger.LogInformation("Successfully retrieved all questions from DB");
-            return Results.Ok(questions);
+            //return Results.Ok(questions);
+            return StatusCode(200, questions);
         }
         catch (System.AggregateException ex)
         {
             _logger.LogError("Failed to query DB. {0}", ex);
-            return Results.StatusCode(500);
+            return StatusCode(500, ex);
         }
         // Create empty filter, which will return the full db list
         // var filter = Builders<QuestionDto>.Filter.Empty;

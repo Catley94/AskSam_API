@@ -1,4 +1,5 @@
 @AskSam_API_HostAddress = http://localhost:5125
+# @AskSam_API_HostAddress = https://asksamapi.azurewebsites.net
 
 GET {{AskSam_API_HostAddress}}/questions/
 Accept: application/json
