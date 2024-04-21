@@ -22,7 +22,6 @@ public class QuestionsController : ControllerBase
     public QuestionsController(ILogger<QuestionsController> logger, IDatabase database)
     { 
         _logger = logger;
-        // publicDB = mongoDBs;
         _database = database;
     }
 

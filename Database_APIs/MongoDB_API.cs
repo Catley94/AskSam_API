@@ -7,7 +7,7 @@ namespace AskSam_API.Database_APIs;
 public class MongoDB_API : IDatabase
 {
 
-    private Public_DB? publicDB;
+    IMongoCollection<QuestionDto>? mongoDbCollection = null;
 
     string askSamQuestionCollectionName = "askSamQuestionCollection";
     string askSamQuestionDBName = "AS_Question_DB";
@@ -22,14 +22,8 @@ public class MongoDB_API : IDatabase
             //Then create the collection
             var questionDB = client.GetDatabase(askSamQuestionDBName);
 
-
-
             IMongoCollection<QuestionDto> questionCollection = questionDB.GetCollection<QuestionDto>(askSamQuestionCollectionName);
-
-            publicDB = new Public_DB
-            {
-                Mongo_DB_Question_Collection = questionCollection
-            };
+            mongoDbCollection = questionCollection;
 
         }
         else
@@ -41,50 +35,50 @@ public class MongoDB_API : IDatabase
     public async Task DeleteOne(string? questionId)
     {
         FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByQuestionId(questionId);
-        await publicDB.Mongo_DB_Question_Collection.DeleteOneAsync(filter);
+        await mongoDbCollection.DeleteOneAsync(filter);
     }
 
     public async Task<List<QuestionDto>> FindAll()
     {
         FilterDefinition<QuestionDto> filter = Builders<QuestionDto>.Filter.Empty;
-        return await publicDB.Mongo_DB_Question_Collection.Find(filter).ToListAsync();
+        return await mongoDbCollection.Find(filter).ToListAsync();
     }
 
     public async Task<List<QuestionDto>> FindAllByClientId(string? clientId)
     {
         FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByClientId(clientId);
-        return await publicDB.Mongo_DB_Question_Collection.Find(filter).ToListAsync();
+        return await mongoDbCollection.Find(filter).ToListAsync();
     }
 
     public async Task<QuestionDto?> FindFirst(string? questionId)
     {
         FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByQuestionId(questionId);
-        return await publicDB.Mongo_DB_Question_Collection.Find(filter).FirstOrDefaultAsync();
+        return await mongoDbCollection.Find(filter).FirstOrDefaultAsync();
     }
 
     public async Task<QuestionDto?> Insert(QuestionDto question)
     {
-        await publicDB.Mongo_DB_Question_Collection.InsertOneAsync(question);
+        await mongoDbCollection.InsertOneAsync(question);
         return await GetData(question);
     }
 
     public async Task<QuestionDto?> Replace(string? questionId, QuestionDto updatedQuestion)
     {
         FilterDefinition<QuestionDto> filter = CreateQuestionDTOFilterByQuestionId(questionId);
-        await publicDB.Mongo_DB_Question_Collection.ReplaceOneAsync(filter, updatedQuestion);
+        await mongoDbCollection.ReplaceOneAsync(filter, updatedQuestion);
         return await GetData(updatedQuestion);
     }
 
     public async Task<long> TotalCount()
     {
-        return await publicDB.Mongo_DB_Question_Collection.EstimatedDocumentCountAsync();
+        return await mongoDbCollection.EstimatedDocumentCountAsync();
     }
 
     protected async Task<QuestionDto> GetData(QuestionDto _question)
     {
         var filter = CreateQuestionDTOFilterByQuestionId(_question.Id);
 
-        return await publicDB.Mongo_DB_Question_Collection.Find(filter).FirstOrDefaultAsync();
+        return await mongoDbCollection.Find(filter).FirstOrDefaultAsync();
     }
 
     protected FilterDefinition<QuestionDto> CreateQuestionDTOFilterByQuestionId(string? id)
