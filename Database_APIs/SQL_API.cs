@@ -9,17 +9,12 @@ namespace AskSam_API.Database_APIs;
 public class SQL_API : IDatabase
 {
     private string _connectionString;
-    // private DbContextOptionsBuilder<AskSamContext>  optionsBuilder;
 
     public SQL_API(string? connectionString)
     {
         if (!string.IsNullOrEmpty(connectionString))
         {
             _connectionString = connectionString;
-            // optionsBuilder = new DbContextOptionsBuilder<AskSamContext>();
-            // optionsBuilder.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
-
-            // _context = new AskSamContext(optionsBuilder.Options);
         }
         else
         {
@@ -73,16 +68,6 @@ public class SQL_API : IDatabase
 
     public async Task<List<QuestionDto>> FindAll()
     {
-        //if (_context != null)
-        //{
-        //    return await _context.Questions.ToListAsync();
-        //}
-        //else
-        //{
-        //    // Handle the case when _context is null
-        //    return new List<QuestionDto>();
-        //}
-
         using (var context = CreateContext())
         {
             if(context != null)
@@ -141,18 +126,6 @@ public class SQL_API : IDatabase
 
     public async Task<QuestionDto?> Insert(QuestionDto question)
     {
-        //if (_context != null)
-        //{
-        //    _context.Questions.Add(question);
-        //    _context.SaveChanges();
-        //    return question;
-        //}
-        //else
-        //{
-        //    // Handle the case when _context is null
-        //    throw new InvalidOperationException("Database context is not initialized.");
-        //}
-
         using (var context = CreateContext())
         {
             if (context != null)
