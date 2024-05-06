@@ -14,15 +14,19 @@ namespace AskSam_API.Controllers;
 public class QuestionsController : ControllerBase
 {
 
-    // private readonly Public_DB publicDB;
-    private readonly IDatabase _database;
-
     private readonly ILogger<QuestionsController> _logger;
 
-    public QuestionsController(ILogger<QuestionsController> logger, IDatabase database)
+    private readonly IDatabase _database;
+
+    private readonly IConfiguration _configuration;
+
+    private readonly string _adminGuid;
+
+    public QuestionsController(ILogger<QuestionsController> logger, IDatabase database, string adminGuid)
     { 
         _logger = logger;
         _database = database;
+        _adminGuid = adminGuid;
     }
 
     [HttpGet("", Name = "GetQuestions")]
@@ -96,8 +100,6 @@ public class QuestionsController : ControllerBase
         }
         _logger.LogError("A serious error occured if it has reached here.");
         return Results.StatusCode(500);
-
-
     }
 
     [HttpGet("getclientid", Name = "GetClientID")]
@@ -107,8 +109,14 @@ public class QuestionsController : ControllerBase
         // Generate a random guid and send back to the client
         // Client should request this only if there isn't one already in cookies
         Guid? _guid = GenerateNewRandomGuid();
+
+
         if(_guid != null) 
         {
+            if(_guid.ToString() == _adminGuid)
+            {
+                _guid = GenerateNewRandomGuid();
+            }
             _logger.LogInformation("Succesfully created guid: {0}", _guid);
             return Results.Ok(_guid);
         } 

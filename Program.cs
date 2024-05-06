@@ -15,6 +15,9 @@ const string SqlService = "sql";
 const bool localDB = false;
 
 var builder = WebApplication.CreateBuilder(args);
+IConfiguration configuration = builder.Configuration;
+
+string? mySecretValue = configuration["MySettings:adminGuid"];
 
 string dbService = SqlService;
 
@@ -41,6 +44,8 @@ switch(dbService)
 }
 
 if(database != null) builder.Services.AddSingleton(database);
+if(mySecretValue != null) builder.Services.AddSingleton(mySecretValue);
+
 
 
 // Add services to the container.
