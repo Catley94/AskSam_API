@@ -12,14 +12,14 @@ const string MongoDbService = "MongoDB";
 const string SqliteService = "sqlite";
 const string SqlService = "sql";
 
-const bool localDB = false;
 
 var builder = WebApplication.CreateBuilder(args);
 IConfiguration configuration = builder.Configuration;
 
 string? mySecretValue = configuration["MySettings:adminGuid"];
 
-string dbService = SqlService;
+const bool localDB = false;
+const string dbService = SqlService;
 
 string? localMongoDbConnectionString = builder.Configuration.GetConnectionString("Local_AskSam_MongoDB");
 string? azureMongoDbConnectionString = builder.Configuration.GetConnectionString("Azure_AskSam_MongoDB");

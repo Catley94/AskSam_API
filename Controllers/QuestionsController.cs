@@ -54,24 +54,29 @@ public class QuestionsController : ControllerBase
         
     }
 
-    [HttpGet("allquestions", Name = "GetAllQuestions")]
-    public ObjectResult GetAllQuestions()
+    [HttpGet("allquestions/{guid}", Name = "GetAllQuestions")]
+    public ObjectResult GetAllQuestions(Guid guid)
     {
-        _logger.LogInformation("GetAllQuestions: GET Request to /questions/allquestions");
-        try {
-            List<QuestionDto> questions = _database.FindAll().Result;
-            _logger.LogInformation("Successfully retrieved all questions from DB");
-            //return Results.Ok(questions);
-            return StatusCode(200, questions);
-        }
-        catch (System.AggregateException ex)
+        _logger.LogInformation($"GetAllQuestions: GET Request to /questions/allquestions/{guid}");
+        if(guid.ToString() == _adminGuid)
         {
-            _logger.LogError("Failed to query DB. {0}", ex);
-            return StatusCode(500, ex);
+            try
+            {
+                List<QuestionDto> questions = _database.FindAll().Result;
+                _logger.LogInformation("Successfully retrieved all questions from DB");
+                //return Results.Ok(questions);
+                return StatusCode(200, questions);
+            }
+            catch (System.AggregateException ex)
+            {
+                _logger.LogError("Failed to query DB. {0}", ex);
+                return StatusCode(500, ex);
+            }
         }
-        // Create empty filter, which will return the full db list
-        // var filter = Builders<QuestionDto>.Filter.Empty;
-        // return publicDB.Mongo_DB_Question_Collection.Find(filter).SortBy(question => question.Id).ToList();
+        else
+        {
+            return StatusCode(403, "Access denied. You do not have permission to retrieve all questions.");
+        }
     }
 
     // GET: /questions/{id}

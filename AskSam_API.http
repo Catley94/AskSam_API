@@ -8,6 +8,15 @@ Accept: application/json
 
 GET {{AskSam_API_HostAddress}}/questions/allquestions
 
+### admin guid
+
+GET {{AskSam_API_HostAddress}}/questions/allquestions/02c45e2f-8299-44e2-aa24-0c99fc60c7bd
+
+### random guid
+
+GET {{AskSam_API_HostAddress}}/questions/allquestions/d2c96a35-40ef-45a3-8d06-b694deab439c
+
+
 ###
 
 GET {{AskSam_API_HostAddress}}/questions/3327cf26-f40c-4b21-8643-813d8dc47af4
