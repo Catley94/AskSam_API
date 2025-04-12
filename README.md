@@ -1,4 +1,4 @@
-# ASP.NET API
+# ASP.NET API - .NET 8
 
 ## Endpoints
 GET /questions => Results.Problem("No client guid found, please include this within GET request, like so: /questions/7ac79c82-b01b-46de-af5c-3d7db4bfeeaf");
@@ -28,3 +28,17 @@ DELETE /questions/\<questionId\> => Used to delete questionIds, currently not be
 #### SQL - Plans on using Azure for future.
 (Adding more databases would be easy as I have abstracted this as a database layer.)
 
+
+## Prerequisites for Development
+- SQLite DB Locally
+- MongoDB Locally
+- Install
+- dotnet ef installed (`dotnet tool install --global dotnet-ef`)
+- Migrate DB InitialCreate
+- Create appsettings.json (Below is a really basic example)
+  - "MySettings": {
+    "adminGuid": "02c45e2f-8299-44e2-aa24-0c99fc60c7bd"
+    },
+  - "ConnectionStrings": {
+    "Local_AskSam_MongoDB": "mongodb://localhost:27017"
+    }

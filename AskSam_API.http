@@ -49,7 +49,7 @@ POST {{AskSam_API_HostAddress}}/questions
 Content-Type: application/json
 
 {
-    "Guid": "7ac79c82-b01b-46de-af5c-3d7db4bfeeaf",
+    "clientGuid": "7ac79c82-b01b-46de-af5c-3d7db4bfeeaf",
     "Answered": true,
     "Question": "What colour is Space?",
     "Answer": "Dark Blue",

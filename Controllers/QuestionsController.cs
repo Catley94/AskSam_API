@@ -9,8 +9,8 @@ using System;
 
 namespace AskSam_API.Controllers;
 
-[ApiController]
 [Route("[controller]")]
+[ApiController]
 public class QuestionsController : ControllerBase
 {
 
@@ -22,7 +22,7 @@ public class QuestionsController : ControllerBase
 
     private readonly string _adminGuid;
 
-    public QuestionsController(ILogger<QuestionsController> logger, IDatabase database, string adminGuid)
+    public QuestionsController(ILogger<QuestionsController> logger, IDatabase database, String adminGuid)
     { 
         _logger = logger;
         _database = database;

@@ -20,7 +20,7 @@ public class MongoDB_API : IDatabase
 
             //If it cannot find the DB, it will create it
             //Then create the collection
-            var questionDB = client.GetDatabase(askSamQuestionDBName);
+            IMongoDatabase? questionDB = client.GetDatabase(askSamQuestionDBName);
 
             IMongoCollection<QuestionDto> questionCollection = questionDB.GetCollection<QuestionDto>(askSamQuestionCollectionName);
             mongoDbCollection = questionCollection;

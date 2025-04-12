@@ -18,8 +18,8 @@ IConfiguration configuration = builder.Configuration;
 
 string? mySecretValue = configuration["MySettings:adminGuid"];
 
-const bool localDB = false;
-const string dbService = SqlService;
+const bool localDB = true;
+const string dbService = MongoDbService;
 
 string? localMongoDbConnectionString = builder.Configuration.GetConnectionString("Local_AskSam_MongoDB");
 string? azureMongoDbConnectionString = builder.Configuration.GetConnectionString("Azure_AskSam_MongoDB");
