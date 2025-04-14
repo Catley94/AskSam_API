@@ -1,5 +1,8 @@
 # ASP.NET API - .NET 8
 
+Note: This project does include an appsettings.json file, purely as this is an example project. 
+In production, this will be taken out.
+
 ## Endpoints
 GET /questions => Results.Problem("No client guid found, please include this within GET request, like so: /questions/7ac79c82-b01b-46de-af5c-3d7db4bfeeaf");
 
