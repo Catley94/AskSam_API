@@ -22,7 +22,7 @@ services:
       - "443"
 
   mongodb:
-    image: mongo:latest
+    image: mongo:4.4.22
     container_name: mongodb
     ports:
       - "27017:27017"
