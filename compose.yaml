@@ -22,7 +22,7 @@ services:
       - "443"
 
   mongodb:
-    image: mongodb/mongodb-community-server:latest
+    image: mongo:latest
     container_name: mongodb
     ports:
       - "27017:27017"
